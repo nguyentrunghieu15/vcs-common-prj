@@ -1,21 +1,17 @@
 package model
 
 import (
+	"errors"
+
 	"gorm.io/gorm"
 )
 
-type UserRole int
+type UserRole string
 
 const (
-	RoleAdmin UserRole = iota
-	RoleUser
+	RoleAdmin UserRole = "admin"
+	RoleUser  UserRole = "user"
 )
-
-var role = []string{"admin", "user"}
-
-func (c *UserRole) String() string {
-	return role[*c]
-}
 
 type BaseModel struct {
 	gorm.Model
@@ -31,5 +27,13 @@ type User struct {
 	Phone         string
 	Avatar        string
 	IsSupperAdmin bool
-	Roles         string
+	Roles         UserRole
+	Password      string
+}
+
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+	if u.IsSupperAdmin == true {
+		return errors.New("Invalid Role")
+	}
+	return
 }

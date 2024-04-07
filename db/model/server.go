@@ -1,21 +1,15 @@
 package model
 
-type ServerStatus int
+type ServerStatus string
 
 const (
-	On ServerStatus = iota
-	Off
+	On  ServerStatus = "on"
+	Off ServerStatus = "off"
 )
-
-var status = []string{"on", "off"}
-
-func (c *ServerStatus) String() string {
-	return status[*c]
-}
 
 type Server struct {
 	BaseModel
-	name   string
-	status ServerStatus
-	ipv4   string
+	Name   string
+	Status ServerStatus
+	Ipv4   string
 }

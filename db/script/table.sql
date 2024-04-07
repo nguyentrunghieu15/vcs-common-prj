@@ -11,6 +11,7 @@ CREATE TABLE users {
     delete_by INT
     email VARCHAR(255) UNIQUE NOT NULL
     full_name VARCHAR(1000)
+    password VARCHAR(2000)
     phone VARCHAR(20)
     avatar VARCHAR(2000)
     is_supper_admin BOOLEAN
