@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/auth";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+
+
+message LoginMessage {
+    string Email = 1 [(google.api.field_behavior) = REQUIRED];
+    string Password = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message LoginResponse {
+    string AccessToken = 1;
+    string  TokenType = 2;
+    int64 ExpiresIn = 3;
+    string RefreshToken =4;
+}
+
+message RefreshTokenMessage {
+    string RefreshToken =1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message RefreshTokenResponse {
+    string AccessToken = 1;
+}
+
+service AuthService {
+  rpc Login(LoginMessage) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/login"
+      body:"*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        responses: {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        };
+      };
+  }
+
+  rpc RefreshToken(RefreshTokenMessage) returns (RefreshTokenResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/refresh-token"
+      body:"*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        responses: {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        };
+      };
+  }
+}

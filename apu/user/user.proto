@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/user";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/protobuf/empty.proto";
+
+enum UserRole {
+    RoleAdmin = 0;
+    RoleUser = 1;
+}
+
+message User {
+    string Email = 1 ;
+	string FullName = 2;
+	string Phone = 3;
+	string Avatar = 4;
+    bool IsSupperAdmin =5;
+	UserRole Roles = 6 ;
+	string Password = 7;
+}
+
+message ListUsersRequest {
+    int64 limit = 1;
+}
+
+message ListUsersResponse {
+    repeated User Users = 1;
+}
+
+message GetUserByIdRequest {
+    int64 Id = 1;
+}
+
+message DeleteUserByIdRequest {
+    int64 id = 1;
+}
+
+message CreateUserRequest {
+    string Email = 1 ;
+	string FullName = 2;
+	string Phone = 3;
+	string Avatar = 4;
+    bool IsSupperAdmin =5;
+	UserRole Roles = 6 ;
+	string Password = 7;
+}
+
+message UpdateUserByIdRequest {
+    string Email = 1 ;
+	string FullName = 2;
+	string Phone = 3;
+	string Avatar = 4;
+    bool IsSupperAdmin =5;
+	UserRole Roles = 6 ;
+	string Password = 7;
+    int64 id = 8;
+}
+
+
+// Generated according to https://cloud.google.com/apis/design/standard_methods
+service UserService {
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/user/list"
+    };
+  }
+
+  rpc GetUser(GetUserByIdRequest) returns (User) {
+    option (google.api.http) = {
+      get: "/api/v1/user/{Id}"
+    };
+  }
+
+  rpc CreateUser(CreateUserRequest) returns (User) {
+    option (google.api.http) = {
+      post: "/api/v1/user"
+      body: "*"
+    };
+  }
+
+  rpc UpdateUser(UpdateUserByIdRequest) returns (User) {
+    option (google.api.http) = {
+      patch: "/api/v1/user/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteUSer(DeleteUserByIdRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/v1/user/{id}"
+    };
+  }
+}
