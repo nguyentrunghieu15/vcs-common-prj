@@ -73,7 +73,9 @@ type ManagedbConnection struct {
 	connections map[string]interface{}
 }
 
-var m ManagedbConnection = ManagedbConnection{}
+var m ManagedbConnection = ManagedbConnection{
+	connections: map[string]interface{}{},
+}
 
 func GetConnection(con Connection) (interface{}, error) {
 	m.mu.Lock()
