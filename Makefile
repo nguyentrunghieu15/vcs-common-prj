@@ -14,4 +14,7 @@ user :
 	--openapiv2_out . \
     apu/user/*.proto
 
-all : auth user
+merge-openapiv2 : 
+	go-swagger-merger -o .\apu\vcs_msm.swagger2.json  .\apu\user\user.swagger.json .\apu\auth\auth.swagger.json
+
+all : auth user merge-openapiv2
