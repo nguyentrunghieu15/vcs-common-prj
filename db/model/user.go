@@ -1,8 +1,6 @@
 package model
 
 import (
-	"errors"
-
 	"gorm.io/gorm"
 )
 
@@ -29,11 +27,4 @@ type User struct {
 	IsSupperAdmin bool
 	Roles         UserRole
 	Password      string
-}
-
-func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
-	if u.IsSupperAdmin == true {
-		return errors.New("Invalid Role")
-	}
-	return
 }

@@ -1,0 +1,160 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+// import "google/api/field_behavior.proto";
+// import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/server";
+
+enum ServerStatus {
+    ON = 0;
+    OFF= 1;
+}
+
+enum TypeSort {
+    ASC = 0;
+    DESC= 1;
+}
+
+message FilterServer {
+    optional ServerStatus status =1;
+    optional int64 limit = 2;
+    optional int64 page = 3;
+    optional int64 page_size = 4;
+    optional TypeSort sort = 5;
+    optional string sort_by = 6;
+}
+
+message Server{
+    int64 id = 1;
+    string created_at = 2;
+    int64 created_by = 3;
+    string updated_at = 4; 
+    int64 updated_by =5;
+    string name =6;
+    ServerStatus status =7;
+    string ipv4 =8;
+}
+
+message ListServersRequest {
+    FilterServer filter = 1;
+}
+  
+message ListServersResponse {
+    // The field name should match the noun "Server" in the method name.
+    // There will be a maximum number of items returned based on the page_size field in the request.
+    repeated Server servers = 1;
+}
+  
+message GetServerByNameRequest {
+    // The field will contain name of the resource requested.
+    string name = 1;
+}
+
+message GetServerByIdRequest {
+    // The field will contain name of the resource requested.
+    int64 id = 1;
+}
+  
+message CreateServerRequest {
+    // The Server resource to create.
+    // The field name should match the Noun in the method name.
+    string name =6;
+    ServerStatus status =7;
+    string ipv4 =8;
+  }
+  
+  message UpdateServerRequest {
+    // The Server resource which replaces the resource on the server.
+    int64 id = 1;
+    string name =6;
+    ServerStatus status =7;
+    string ipv4 =8;
+  }
+  
+message DeleteServerByNameRequest {
+    // The resource name of the Server to be deleted.
+    string name = 1;
+}
+
+message DeleteServerByIdRequest {
+    // The resource id of the Server to be deleted.
+    int64 id = 1;
+}
+
+message ExportServerRequest {
+    FilterServer filter = 1;
+}
+
+message ImportServerRequest {
+    Server server = 1;
+}
+
+message ImportServerResponse {
+    int64 num_server_imported = 1;
+    repeated Server server_imported = 2;
+    int64 num_server_fail = 3;
+    repeated Server server_fail = 4;
+}
+
+// Generated according to https://cloud.google.com/apis/design/standard_methods
+service ServerService {
+  rpc ListServers(ListServersRequest) returns (ListServersResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/server/list"
+    };
+  }
+
+  rpc GetServerByName(GetServerByNameRequest) returns (Server) {
+    option (google.api.http) = {
+      get: "/api/v1/server/{name}"
+    };
+  }
+
+  rpc GetServerById(GetServerByIdRequest) returns (Server) {
+    option (google.api.http) = {
+      get: "/api/v1/server/{id}"
+    };
+  }
+
+  rpc CreateServer(CreateServerRequest) returns (Server) {
+    option (google.api.http) = {
+      post: "/api/v1/server"
+      body: "*"
+    };
+  }
+
+  rpc UpdateServer(UpdateServerRequest) returns (Server) {
+    option (google.api.http) = {
+      patch: "/api/v1/server/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteServerByName(DeleteServerByNameRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/v1/server/{name}"
+    };
+  }
+
+  rpc DeleteServerById(DeleteServerByIdRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/v1/server/{id}"
+    };
+  }
+
+  rpc ExportServer(ExportServerRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/api/v1/server/export"
+      body:"*"
+    };
+  }
+
+  rpc ImportServer(stream ImportServerRequest) returns (ImportServerResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/server/import"
+    };
+  }
+}
+

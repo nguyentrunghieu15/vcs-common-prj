@@ -3,8 +3,8 @@ syntax = "proto3";
 option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/user";
 
 import "google/api/annotations.proto";
-import "google/api/field_behavior.proto";
-import "protoc-gen-openapiv2/options/annotations.proto";
+// import "google/api/field_behavior.proto";
+// import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/protobuf/empty.proto";
 
 enum UserRole {
@@ -13,13 +13,18 @@ enum UserRole {
 }
 
 message User {
-    string Email = 1 ;
-	string FullName = 2;
-	string Phone = 3;
-	string Avatar = 4;
-    bool IsSupperAdmin =5;
-	UserRole Roles = 6 ;
-	string Password = 7;
+  int64 id = 1;
+  string created_at = 2;
+  int64 created_by = 3;
+  string updated_at = 4; 
+  int64 updated_by =5;
+  string email = 6 ;
+  string full_name = 7;
+  string phone = 8;
+  string avatar = 9;
+  bool is_supper_admin =10;
+  UserRole roles = 11 ;
+  string password = 12;
 }
 
 message ListUsersRequest {
@@ -27,11 +32,11 @@ message ListUsersRequest {
 }
 
 message ListUsersResponse {
-    repeated User Users = 1;
+    repeated User users = 1;
 }
 
 message GetUserByIdRequest {
-    int64 Id = 1;
+    int64 id = 1;
 }
 
 message DeleteUserByIdRequest {
@@ -39,24 +44,24 @@ message DeleteUserByIdRequest {
 }
 
 message CreateUserRequest {
-    string Email = 1 ;
-	string FullName = 2;
-	string Phone = 3;
-	string Avatar = 4;
-    bool IsSupperAdmin =5;
-	UserRole Roles = 6 ;
-	string Password = 7;
+  string email = 1 ;
+  string full_Name = 2;
+  string phone = 3;
+  string avatar = 4;
+  bool is_supper_admin =5;
+  UserRole roles = 6 ;
+  string password = 7;
 }
 
 message UpdateUserByIdRequest {
-    string Email = 1 ;
-	string FullName = 2;
-	string Phone = 3;
-	string Avatar = 4;
-    bool IsSupperAdmin =5;
-	UserRole Roles = 6 ;
-	string Password = 7;
-    int64 id = 8;
+  string email = 1 ;
+  string full_name = 2;
+  string phone = 3;
+  string avatar = 4;
+  bool is_supper_admin =5;
+  UserRole roles = 6 ;
+  string password = 7;
+  int64 id = 8;
 }
 
 
@@ -70,7 +75,7 @@ service UserService {
 
   rpc GetUser(GetUserByIdRequest) returns (User) {
     option (google.api.http) = {
-      get: "/api/v1/user/{Id}"
+      get: "/api/v1/user/{id}"
     };
   }
 

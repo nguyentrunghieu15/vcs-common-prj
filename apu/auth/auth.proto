@@ -9,23 +9,23 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 
 
 message LoginMessage {
-    string Email = 1 [(google.api.field_behavior) = REQUIRED];
-    string Password = 2 [(google.api.field_behavior) = REQUIRED];
+    string email = 1 [(google.api.field_behavior) = REQUIRED];
+    string password = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message LoginResponse {
-    string AccessToken = 1;
-    string  TokenType = 2;
-    int64 ExpiresIn = 3;
-    string RefreshToken =4;
+    string access_token = 1;
+    string  token_type = 2;
+    int64 expires_in = 3;
+    string refresh_token =4;
 }
 
 message RefreshTokenMessage {
-    string RefreshToken =1 [(google.api.field_behavior) = REQUIRED];
+    string refresh_token =1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message RefreshTokenResponse {
-    string AccessToken = 1;
+    string access_token = 1;
 }
 
 service AuthService {
