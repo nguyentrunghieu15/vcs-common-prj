@@ -18,6 +18,10 @@ type ServerRepository struct {
 	db *gorm.DB
 }
 
+func CreateServerRepository(db *gorm.DB) *ServerRepository {
+	return &ServerRepository{db: db}
+}
+
 func (c *ServerRepository) FindOneById(id int) (*Server, error) {
 	var Server = Server{}
 	if err := c.db.First(&Server, id); err.Error != nil {

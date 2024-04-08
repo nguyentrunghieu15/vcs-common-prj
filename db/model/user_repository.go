@@ -18,6 +18,10 @@ type UserRepository struct {
 	db *gorm.DB
 }
 
+func CreateUserRepository(db *gorm.DB) *UserRepository {
+	return &UserRepository{db: db}
+}
+
 func (c *UserRepository) FindOneById(id int) (*User, error) {
 	var user = User{}
 	if err := c.db.First(&user, id); err.Error != nil {
