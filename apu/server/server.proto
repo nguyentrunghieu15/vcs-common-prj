@@ -102,7 +102,7 @@ message ImportServerResponse {
 service ServerService {
   rpc ListServers(ListServerRequest) returns (ListServersResponse) {
     option (google.api.http) = {
-      get: "/api/v1/server/list"
+      get: "/api/v1/server"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       responses:[

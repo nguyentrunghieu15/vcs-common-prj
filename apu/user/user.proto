@@ -70,7 +70,7 @@ message UpdateUserByIdRequest {
 service UserService {
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
     option (google.api.http) = {
-      get: "/api/v1/user/list"
+      get: "/api/v1/user"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       responses:[
