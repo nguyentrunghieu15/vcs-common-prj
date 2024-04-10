@@ -36,7 +36,7 @@ var (
 )
 
 func request_ServerService_ListServers_0(ctx context.Context, marshaler runtime.Marshaler, client ServerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListServersRequest
+	var protoReq ListServerRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
@@ -52,7 +52,7 @@ func request_ServerService_ListServers_0(ctx context.Context, marshaler runtime.
 }
 
 func local_request_ServerService_ListServers_0(ctx context.Context, marshaler runtime.Marshaler, server ServerServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListServersRequest
+	var protoReq ListServerRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {

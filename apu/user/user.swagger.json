@@ -67,11 +67,42 @@
         },
         "parameters": [
           {
-            "name": "limit",
+            "name": "filter.limit",
             "in": "query",
             "required": false,
             "type": "string",
             "format": "int64"
+          },
+          {
+            "name": "filter.page",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "filter.pageSize",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "filter.sort",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "ASC",
+              "DESC"
+            ],
+            "default": "ASC"
+          },
+          {
+            "name": "filter.sortBy",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -205,6 +236,29 @@
         }
       }
     },
+    "Filter": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "page": {
+          "type": "string",
+          "format": "int64"
+        },
+        "pageSize": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sort": {
+          "$ref": "#/definitions/TypeSort"
+        },
+        "sortBy": {
+          "type": "string"
+        }
+      }
+    },
     "ListUsersResponse": {
       "type": "object",
       "properties": {
@@ -216,6 +270,14 @@
           }
         }
       }
+    },
+    "TypeSort": {
+      "type": "string",
+      "enum": [
+        "ASC",
+        "DESC"
+      ],
+      "default": "ASC"
     },
     "User": {
       "type": "object",

@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ServerServiceClient interface {
-	ListServers(ctx context.Context, in *ListServersRequest, opts ...grpc.CallOption) (*ListServersResponse, error)
+	ListServers(ctx context.Context, in *ListServerRequest, opts ...grpc.CallOption) (*ListServersResponse, error)
 	GetServerByName(ctx context.Context, in *GetServerByNameRequest, opts ...grpc.CallOption) (*Server, error)
 	GetServerById(ctx context.Context, in *GetServerByIdRequest, opts ...grpc.CallOption) (*Server, error)
 	CreateServer(ctx context.Context, in *CreateServerRequest, opts ...grpc.CallOption) (*Server, error)
@@ -42,7 +42,7 @@ func NewServerServiceClient(cc grpc.ClientConnInterface) ServerServiceClient {
 	return &serverServiceClient{cc}
 }
 
-func (c *serverServiceClient) ListServers(ctx context.Context, in *ListServersRequest, opts ...grpc.CallOption) (*ListServersResponse, error) {
+func (c *serverServiceClient) ListServers(ctx context.Context, in *ListServerRequest, opts ...grpc.CallOption) (*ListServersResponse, error) {
 	out := new(ListServersResponse)
 	err := c.cc.Invoke(ctx, "/ServerService/ListServers", in, out, opts...)
 	if err != nil {
@@ -152,7 +152,7 @@ func (x *serverServiceImportServerClient) CloseAndRecv() (*ImportServerResponse,
 // All implementations must embed UnimplementedServerServiceServer
 // for forward compatibility
 type ServerServiceServer interface {
-	ListServers(context.Context, *ListServersRequest) (*ListServersResponse, error)
+	ListServers(context.Context, *ListServerRequest) (*ListServersResponse, error)
 	GetServerByName(context.Context, *GetServerByNameRequest) (*Server, error)
 	GetServerById(context.Context, *GetServerByIdRequest) (*Server, error)
 	CreateServer(context.Context, *CreateServerRequest) (*Server, error)
@@ -168,7 +168,7 @@ type ServerServiceServer interface {
 type UnimplementedServerServiceServer struct {
 }
 
-func (UnimplementedServerServiceServer) ListServers(context.Context, *ListServersRequest) (*ListServersResponse, error) {
+func (UnimplementedServerServiceServer) ListServers(context.Context, *ListServerRequest) (*ListServersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListServers not implemented")
 }
 func (UnimplementedServerServiceServer) GetServerByName(context.Context, *GetServerByNameRequest) (*Server, error) {
@@ -209,7 +209,7 @@ func RegisterServerServiceServer(s grpc.ServiceRegistrar, srv ServerServiceServe
 }
 
 func _ServerService_ListServers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListServersRequest)
+	in := new(ListServerRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -221,7 +221,7 @@ func _ServerService_ListServers_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: "/ServerService/ListServers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServerServiceServer).ListServers(ctx, req.(*ListServersRequest))
+		return srv.(ServerServiceServer).ListServers(ctx, req.(*ListServerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

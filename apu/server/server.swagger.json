@@ -180,17 +180,6 @@
         },
         "parameters": [
           {
-            "name": "filter.status",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "ON",
-              "OFF"
-            ],
-            "default": "ON"
-          },
-          {
             "name": "filter.limit",
             "in": "query",
             "required": false,
@@ -417,16 +406,13 @@
       "type": "object",
       "properties": {
         "filter": {
-          "$ref": "#/definitions/FilterServer"
+          "$ref": "#/definitions/Filter"
         }
       }
     },
-    "FilterServer": {
+    "Filter": {
       "type": "object",
       "properties": {
-        "status": {
-          "$ref": "#/definitions/ServerStatus"
-        },
         "limit": {
           "type": "string",
           "format": "int64"

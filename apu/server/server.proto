@@ -17,8 +17,7 @@ enum TypeSort {
     DESC= 1;
 }
 
-message FilterServer {
-    optional ServerStatus status =1;
+message Filter {
     optional int64 limit = 2;
     optional int64 page = 3;
     optional int64 page_size = 4;
@@ -37,8 +36,8 @@ message Server{
     string ipv4 =8;
 }
 
-message ListServersRequest {
-    FilterServer filter = 1;
+message ListServerRequest {
+    Filter filter = 1;
 }
   
 message ListServersResponse {
@@ -84,7 +83,7 @@ message DeleteServerByIdRequest {
 }
 
 message ExportServerRequest {
-    FilterServer filter = 1;
+    Filter filter = 1;
 }
 
 message ImportServerRequest {
@@ -100,7 +99,7 @@ message ImportServerResponse {
 
 // Generated according to https://cloud.google.com/apis/design/standard_methods
 service ServerService {
-  rpc ListServers(ListServersRequest) returns (ListServersResponse) {
+  rpc ListServers(ListServerRequest) returns (ListServersResponse) {
     option (google.api.http) = {
       get: "/api/v1/server/list"
     };
