@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/api/annotations.proto";
 // import "google/api/field_behavior.proto";
-// import "protoc-gen-openapiv2/options/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/protobuf/empty.proto";
 
 option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/server";
@@ -104,17 +104,83 @@ service ServerService {
     option (google.api.http) = {
       get: "/api/v1/server/list"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses:[
+         {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
+    };
   }
 
   rpc GetServerByName(GetServerByNameRequest) returns (Server) {
     option (google.api.http) = {
       get: "/api/v1/server/{name}"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses:[
+         {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
+    };
   }
 
   rpc GetServerById(GetServerByIdRequest) returns (Server) {
     option (google.api.http) = {
       get: "/api/v1/server/{id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses:[
+         {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
     };
   }
 
@@ -123,6 +189,28 @@ service ServerService {
       post: "/api/v1/server"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses:[
+         {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
+    };
   }
 
   rpc UpdateServer(UpdateServerRequest) returns (Server) {
@@ -130,17 +218,83 @@ service ServerService {
       patch: "/api/v1/server/{id}"
       body: "*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses:[
+         {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
+    };
   }
 
   rpc DeleteServerByName(DeleteServerByNameRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/api/v1/server/{name}"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses:[
+         {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
+    };
   }
 
   rpc DeleteServerById(DeleteServerByIdRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/api/v1/server/{id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses:[
+         {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
     };
   }
 
@@ -149,11 +303,55 @@ service ServerService {
       post: "/api/v1/server/export"
       body:"*"
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses:[
+         {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
+    };
   }
 
   rpc ImportServer(stream ImportServerRequest) returns (ImportServerResponse) {
     option (google.api.http) = {
       post: "/api/v1/server/import"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses:[
+         {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
     };
   }
 }
