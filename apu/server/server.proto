@@ -13,8 +13,9 @@ enum ServerStatus {
 }
 
 enum TypeSort {
-    ASC = 0;
-    DESC= 1;
+    NONE =0;
+    ASC = 1;
+    DESC= 2;
 }
 
 message Filter {

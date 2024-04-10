@@ -206,10 +206,11 @@
             "required": false,
             "type": "string",
             "enum": [
+              "NONE",
               "ASC",
               "DESC"
             ],
-            "default": "ASC"
+            "default": "NONE"
           },
           {
             "name": "filter.sortBy",
@@ -530,10 +531,11 @@
     "TypeSort": {
       "type": "string",
       "enum": [
+        "NONE",
         "ASC",
         "DESC"
       ],
-      "default": "ASC"
+      "default": "NONE"
     },
     "protobufAny": {
       "type": "object",

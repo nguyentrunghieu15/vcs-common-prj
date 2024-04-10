@@ -4,8 +4,8 @@ type FilterQueryInterface interface {
 	GetLimit() int64
 	GetPage() int64
 	GetPageSize() int64
-	GetSorted() TypeSort
-	GetSortedBy() string
+	GetSort() TypeSort
+	GetSortBy() string
 }
 
 type TypeSort int
