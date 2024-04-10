@@ -46,7 +46,7 @@ message DeleteUserByIdRequest {
 
 message CreateUserRequest {
   string email = 1 ;
-  string full_Name = 2;
+  string full_name = 2;
   string phone = 3;
   string avatar = 4;
   bool is_supper_admin =5;
