@@ -7,6 +7,8 @@ import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/protobuf/empty.proto";
 import "apu/server/server.proto";
+import "validate/validate.proto";
+
 
 enum UserRole {
     RoleAdmin = 0;
@@ -19,10 +21,14 @@ message User {
   int64 created_by = 3;
   string updated_at = 4; 
   int64 updated_by =5;
-  string email = 6 ;
+  string email = 6 [(validate.rules).string = {
+    email: true,
+  }];
   string full_name = 7;
   string phone = 8;
-  string avatar = 9;
+  string avatar = 9 [(validate.rules).string = {
+    ignore_empty: true,
+  }];
   bool is_supper_admin =10;
   UserRole roles = 11 ;
   string password = 12;
@@ -45,7 +51,12 @@ message DeleteUserByIdRequest {
 }
 
 message CreateUserRequest {
-  string email = 1 ;
+  string email = 1 [(validate.rules).string = {
+    email: true,
+  },
+  (validate.rules).message = {
+    required: true,
+  }];
   string full_name = 2;
   string phone = 3;
   string avatar = 4;
