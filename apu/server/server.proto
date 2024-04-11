@@ -4,6 +4,7 @@ import "google/api/annotations.proto";
 // import "google/api/field_behavior.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/protobuf/empty.proto";
+import "validate/validate.proto";
 
 option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/server";
 
@@ -19,10 +20,10 @@ enum TypeSort {
 }
 
 message Filter {
-    optional int64 limit = 2;
-    optional int64 page = 3;
-    optional int64 page_size = 4;
-    optional TypeSort sort = 5;
+    optional int64 limit = 2 [(validate.rules).int64 = {gte:1 , ignore_empty:true}];
+    optional int64 page = 3 [(validate.rules).int64 = {gte:1 , ignore_empty:true}];
+    optional int64 page_size = 4 [(validate.rules).int64 = {gte:1 , ignore_empty:true}];
+    optional TypeSort sort = 5 [(validate.rules).enum.defined_only = true];
     optional string sort_by = 6;
 }
 
@@ -33,12 +34,12 @@ message Server{
     string updated_at = 4; 
     int64 updated_by =5;
     string name =6;
-    ServerStatus status =7;
-    string ipv4 =8;
+    ServerStatus status =7 [(validate.rules).enum.defined_only = true];
+    string ipv4 =8 [(validate.rules).string = {ipv4: true}];
 }
 
 message ListServerRequest {
-    Filter filter = 1;
+    optional Filter filter = 1;
 }
   
 message ListServersResponse {
@@ -61,16 +62,16 @@ message CreateServerRequest {
     // The Server resource to create.
     // The field name should match the Noun in the method name.
     string name =6;
-    ServerStatus status =7;
-    string ipv4 =8;
+    ServerStatus status =7 [(validate.rules).enum.defined_only = true];
+    string ipv4 =8 [(validate.rules).string = {ipv4: true}];
   }
   
   message UpdateServerRequest {
     // The Server resource which replaces the resource on the server.
     int64 id = 1;
     string name =6;
-    ServerStatus status =7;
-    string ipv4 =8;
+    ServerStatus status =7 [(validate.rules).enum.defined_only = true];
+    string ipv4 =8 [(validate.rules).string = {ipv4: true}];
   }
   
 message DeleteServerByNameRequest {
@@ -84,11 +85,11 @@ message DeleteServerByIdRequest {
 }
 
 message ExportServerRequest {
-    Filter filter = 1;
+    optional Filter filter = 1;
 }
 
 message ImportServerRequest {
-    Server server = 1;
+    Server server = 1 [(validate.rules).message.required = true];
 }
 
 message ImportServerResponse {

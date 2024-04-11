@@ -133,6 +133,50 @@
         ]
       }
     },
+    "/api/v1/user/password/change": {
+      "patch": {
+        "operationId": "UserService_ChangePasswordUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangePasswordRequest"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    },
     "/api/v1/user/{id}": {
       "get": {
         "operationId": "UserService_GetUser",
@@ -254,6 +298,12 @@
             "schema": {
               "$ref": "#/definitions/UserServiceUpdateUserBody"
             }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
           }
         ],
         "tags": [
@@ -263,6 +313,21 @@
     }
   },
   "definitions": {
+    "ChangePasswordRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
     "CreateUserRequest": {
       "type": "object",
       "properties": {
@@ -287,7 +352,12 @@
         "password": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "email",
+        "roles",
+        "password"
+      ]
     },
     "Filter": {
       "type": "object",
@@ -371,11 +441,12 @@
         },
         "roles": {
           "$ref": "#/definitions/UserRole"
-        },
-        "password": {
-          "type": "string"
         }
-      }
+      },
+      "required": [
+        "email",
+        "roles"
+      ]
     },
     "UserRole": {
       "type": "string",
@@ -405,11 +476,12 @@
         },
         "roles": {
           "$ref": "#/definitions/UserRole"
-        },
-        "password": {
-          "type": "string"
         }
-      }
+      },
+      "required": [
+        "email",
+        "roles"
+      ]
     },
     "protobufAny": {
       "type": "object",

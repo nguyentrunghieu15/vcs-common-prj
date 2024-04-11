@@ -3,7 +3,7 @@ syntax = "proto3";
 option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/user";
 
 import "google/api/annotations.proto";
-// import "google/api/field_behavior.proto";
+import "google/api/field_behavior.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/protobuf/empty.proto";
 import "apu/server/server.proto";
@@ -21,21 +21,16 @@ message User {
   int64 created_by = 3;
   string updated_at = 4; 
   int64 updated_by =5;
-  string email = 6 [(validate.rules).string = {
-    email: true,
-  }];
+  string email = 6 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {email: true}];
   string full_name = 7;
   string phone = 8;
-  string avatar = 9 [(validate.rules).string = {
-    ignore_empty: true,
-  }];
+  string avatar = 9;
   bool is_supper_admin =10;
-  UserRole roles = 11 ;
-  string password = 12;
+  UserRole roles = 11 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
 }
 
 message ListUsersRequest {
-    Filter filter = 1;
+    optional Filter filter = 1;
 }
 
 message ListUsersResponse {
@@ -51,29 +46,28 @@ message DeleteUserByIdRequest {
 }
 
 message CreateUserRequest {
-  string email = 1 [(validate.rules).string = {
-    email: true,
-  },
-  (validate.rules).message = {
-    required: true,
-  }];
+  string email = 1 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {email: true}];
   string full_name = 2;
   string phone = 3;
   string avatar = 4;
   bool is_supper_admin =5;
-  UserRole roles = 6 ;
-  string password = 7;
+  UserRole roles = 6 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
+  string password = 7 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {min_len: 6}];
 }
 
 message UpdateUserByIdRequest {
-  string email = 1 ;
+  string email = 1 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {email: true}];
   string full_name = 2;
   string phone = 3;
   string avatar = 4;
   bool is_supper_admin =5;
-  UserRole roles = 6 ;
-  string password = 7;
+  UserRole roles = 6 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
   int64 id = 8;
+}
+
+message ChangePasswordRequest {
+  string email = 1 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {email: true}];
+  string password = 7 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {min_len: 6}];
 }
 
 
@@ -178,7 +172,43 @@ service UserService {
             json_schema: {ref: "#/definitions/rpcStatus"}
           }
         }
-      };
+      },
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
+    };
+  }
+
+  rpc ChangePasswordUser(ChangePasswordRequest) returns (User) {
+    option (google.api.http) = {
+      patch: "/api/v1/user/password/change"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses: {
+        key: "401",
+        value: {
+          description: "Unauthorized";
+          schema: {
+            json_schema: {ref: "#/definitions/rpcStatus"}
+          }
+        }
+      },
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
     };
   }
 

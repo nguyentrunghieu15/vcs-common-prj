@@ -5,12 +5,13 @@ option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/auth";
 import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
+import "validate/validate.proto";
 
 
 
 message LoginMessage {
-    string email = 1 [(google.api.field_behavior) = REQUIRED];
-    string password = 2 [(google.api.field_behavior) = REQUIRED];
+    string email = 1 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {email: true}];
+    string password = 2 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {min_len: 6}];
 }
 
 message LoginResponse {
