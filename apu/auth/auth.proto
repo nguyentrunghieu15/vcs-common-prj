@@ -33,36 +33,83 @@ service AuthService {
   rpc Login(LoginMessage) returns (LoginResponse) {
     option (google.api.http) = {
       post: "/api/v1/auth/login"
-      body:"*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-        responses: {
-          key: "401",
-          value: {
-            description: "Unauthorized";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
+        responses: [
+          {
+            key: "401",
+            value: {
+              description: "Unauthorized";
+              schema: {
+                json_schema: {ref: "#/definitions/rpcStatus"}
+              }
+            }
+          },
+          {
+            key: "400",
+            value: {
+              description: "Bad Request";
+              schema: {
+                json_schema: {ref: "#/definitions/rpcStatus"}
+              }
+            }
+          },
+          {
+            key: "404",
+            value: {
+              description: "Not found";
+              schema: {
+                json_schema: {ref: "#/definitions/rpcStatus"}
+              }
+            }
+          },
+          {
+            key: "500",
+            value: {
+              description: "Internal Server";
+              schema: {
+                json_schema: {ref: "#/definitions/rpcStatus"}
+              }
             }
           }
-        };
+        ]
       };
   }
 
   rpc RefreshToken(RefreshTokenMessage) returns (RefreshTokenResponse) {
     option (google.api.http) = {
       post: "/api/v1/auth/refresh-token"
-      body:"*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-        responses: {
-          key: "401",
-          value: {
-            description: "Unauthorized";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
+        responses: [
+          {
+            key: "401",
+            value: {
+              description: "Unauthorized";
+              schema: {
+                json_schema: {ref: "#/definitions/rpcStatus"}
+              }
+            }
+          },
+          {
+            key: "404",
+            value: {
+              description: "Not found";
+              schema: {
+                json_schema: {ref: "#/definitions/rpcStatus"}
+              }
+            }
+          },
+          {
+            key: "500",
+            value: {
+              description: "Internal Server";
+              schema: {
+                json_schema: {ref: "#/definitions/rpcStatus"}
+              }
             }
           }
-        };
+        ]
       };
   }
 }
