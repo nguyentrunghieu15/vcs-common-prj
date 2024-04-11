@@ -7,9 +7,9 @@ import (
 type UserRepositoryDecorator interface {
 	FindOneById(int) (*User, error)
 	FindOneByEmail(string) (*User, error)
-	CreateUser(*User) error
-	UpdateOneByEmail(string, *User) error
-	UpdateOneById(int, *User) error
+	CreateUser(map[string]interface{}) error
+	UpdateOneByEmail(string, map[string]interface{}) error
+	UpdateOneById(int, map[string]interface{}) error
 	DeleteOneById(int) error
 	DeleteOneByEmail(string) error
 }

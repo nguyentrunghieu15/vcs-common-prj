@@ -7,9 +7,9 @@ import (
 type ServerRepositoryDecorator interface {
 	FindOneById(int) (*Server, error)
 	FindOneByName(string) (*Server, error)
-	CreateServer(*Server) error
-	UpdateOneByName(string, *Server) error
-	UpdateOneById(int, *Server) error
+	CreateServer(map[string]interface{}) error
+	UpdateOneByName(string, map[string]interface{}) error
+	UpdateOneById(int, map[string]interface{}) error
 	DeleteOneById(int) error
 	DeleteOneByName(string) error
 }
