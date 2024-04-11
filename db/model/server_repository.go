@@ -38,31 +38,25 @@ func (c *ServerRepository) FindOneByName(name string) (*Server, error) {
 	return &Server, nil
 }
 
-func (c *ServerRepository) CreateServer(s *Server) error {
-	result := c.db.Create(s)
+func (c *ServerRepository) CreateServer(s map[string]interface{}) error {
+	result := c.db.Model(&Server{}).Create(s)
 	return result.Error
 }
 
-func (c *ServerRepository) UpdateOneByName(name string, s *Server) error {
-	result := c.db.Model(&Server{}).Where("name = ?", name).Updates(map[string]interface{}{
-		"status": s.Status,
-		"ipv4":   s.Ipv4,
-	})
+func (c *ServerRepository) UpdateOneByName(name string, s map[string]interface{}) error {
+	result := c.db.Model(&Server{}).Where("name = ?", name).Updates(s)
 	return result.Error
 }
 
-func (c *ServerRepository) UpdateOneById(id int, s *Server) error {
-	result := c.db.Model(&Server{}).Where("id = ?", id).Updates(map[string]interface{}{
-		"status": s.Status,
-		"ipv4":   s.Ipv4,
-	})
+func (c *ServerRepository) UpdateOneById(id int, s map[string]interface{}) error {
+	result := c.db.Model(&Server{}).Where("id = ?", id).Updates(s)
 	return result.Error
 }
 func (c *ServerRepository) DeleteOneById(id int) error {
 	result := c.db.Where("id = ?", id).Delete(&Server{})
 	return result.Error
 }
-func (c *ServerRepository) DeleteOneByEmail(name string) error {
+func (c *ServerRepository) DeleteOneByName(name string) error {
 	result := c.db.Where("name = ?", name).Delete(&Server{})
 	return result.Error
 }

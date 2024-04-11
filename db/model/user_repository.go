@@ -38,28 +38,18 @@ func (c *UserRepository) FindOneByEmail(email string) (*User, error) {
 	return &user, nil
 }
 
-func (c *UserRepository) CreateUser(u *User) error {
-	result := c.db.Create(u)
+func (c *UserRepository) CreateUser(u map[string]interface{}) error {
+	result := c.db.Model(&User{}).Create(u)
 	return result.Error
 }
 
-func (c *UserRepository) UpdateOneByEmail(email string, u *User) error {
-	result := c.db.Model(&User{}).Where("email = ?", email).Updates(map[string]interface{}{
-		"full_name": u.FullName,
-		"phone":     u.Phone,
-		"avatar":    u.Avatar,
-		"roles":     u.Roles,
-	})
+func (c *UserRepository) UpdateOneByEmail(email string, u map[string]interface{}) error {
+	result := c.db.Model(&User{}).Where("email = ?", email).Updates(u)
 	return result.Error
 }
 
-func (c *UserRepository) UpdateOneById(id int, u *User) error {
-	result := c.db.Model(&User{}).Where("id = ?", id).Updates(map[string]interface{}{
-		"full_name": u.FullName,
-		"phone":     u.Phone,
-		"avatar":    u.Avatar,
-		"roles":     u.Roles,
-	})
+func (c *UserRepository) UpdateOneById(id int, u map[string]interface{}) error {
+	result := c.db.Model(&User{}).Where("id = ?", id).Updates(u)
 	return result.Error
 }
 func (c *UserRepository) DeleteOneById(id int) error {
