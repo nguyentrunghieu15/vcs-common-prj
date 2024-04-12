@@ -42,21 +42,21 @@ func (c *ServerRepository) FindOneByName(name string) (*Server, error) {
 
 func (c *ServerRepository) CreateServer(s map[string]interface{}) (*Server, error) {
 	var server Server
-	s["CreatedAt "] = time.Now()
+	s["created_at "] = time.Now()
 	result := c.db.Model(&server).Create(s)
 	return &server, result.Error
 }
 
 func (c *ServerRepository) UpdateOneByName(name string, s map[string]interface{}) (*Server, error) {
 	var server Server
-	s["UpdatedAt "] = time.Now()
+	s["updated_at "] = time.Now()
 	result := c.db.Model(&server).Where("name = ?", name).Updates(s)
 	return &server, result.Error
 }
 
 func (c *ServerRepository) UpdateOneById(id int, s map[string]interface{}) (*Server, error) {
 	var server Server
-	s["UpdatedAt "] = time.Now()
+	s["updated_at "] = time.Now()
 	result := c.db.Model(&server).Where("id = ?", id).Updates(s)
 	return &server, result.Error
 }

@@ -42,21 +42,21 @@ func (c *UserRepository) FindOneByEmail(email string) (*User, error) {
 
 func (c *UserRepository) CreateUser(u map[string]interface{}) (*User, error) {
 	var user User
-	u["CreatedAt "] = time.Now()
+	u["created_at "] = time.Now()
 	result := c.db.Model(&user).Create(u)
 	return &user, result.Error
 }
 
 func (c *UserRepository) UpdateOneByEmail(email string, u map[string]interface{}) (*User, error) {
 	var user User
-	u["UpdatedAt "] = time.Now()
+	u["updated_at "] = time.Now()
 	result := c.db.Model(&user).Where("email = ?", email).Updates(u)
 	return &user, result.Error
 }
 
 func (c *UserRepository) UpdateOneById(id int, u map[string]interface{}) (*User, error) {
 	var user User
-	u["UpdatedAt "] = time.Now()
+	u["updated_at "] = time.Now()
 	result := c.db.Model(&user).Where("id = ?", id).Updates(u)
 	return &user, result.Error
 }
