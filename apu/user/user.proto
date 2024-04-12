@@ -11,8 +11,9 @@ import "validate/validate.proto";
 
 
 enum UserRole {
-    RoleAdmin = 0;
-    RoleUser = 1;
+    RoleNone = 0;
+    RoleAdmin = 1;
+    RoleUser = 2;
 }
 
 message User {

@@ -9,8 +9,9 @@ import "validate/validate.proto";
 option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/server";
 
 enum ServerStatus {
-    ON = 0;
-    OFF= 1;
+    STATUSNONE = 0;
+    ON = 1;
+    OFF= 2;
 }
 
 enum TypeSort {
