@@ -7,9 +7,9 @@ import (
 type UserRepositoryDecorator interface {
 	FindOneById(int) (*User, error)
 	FindOneByEmail(string) (*User, error)
-	CreateUser(map[string]interface{}) error
-	UpdateOneByEmail(string, map[string]interface{}) error
-	UpdateOneById(int, map[string]interface{}) error
+	CreateUser(map[string]interface{}) (*User, error)
+	UpdateOneByEmail(string, map[string]interface{}) (*User, error)
+	UpdateOneById(int, map[string]interface{}) (*User, error)
 	DeleteOneById(int) error
 	DeleteOneByEmail(string) error
 }
@@ -38,20 +38,24 @@ func (c *UserRepository) FindOneByEmail(email string) (*User, error) {
 	return &user, nil
 }
 
-func (c *UserRepository) CreateUser(u map[string]interface{}) error {
-	result := c.db.Model(&User{}).Create(u)
-	return result.Error
+func (c *UserRepository) CreateUser(u map[string]interface{}) (*User, error) {
+	var user User
+	result := c.db.Model(&user).Create(u)
+	return &user, result.Error
 }
 
-func (c *UserRepository) UpdateOneByEmail(email string, u map[string]interface{}) error {
-	result := c.db.Model(&User{}).Where("email = ?", email).Updates(u)
-	return result.Error
+func (c *UserRepository) UpdateOneByEmail(email string, u map[string]interface{}) (*User, error) {
+	var user User
+	result := c.db.Model(&user).Where("email = ?", email).Updates(u)
+	return &user, result.Error
 }
 
-func (c *UserRepository) UpdateOneById(id int, u map[string]interface{}) error {
-	result := c.db.Model(&User{}).Where("id = ?", id).Updates(u)
-	return result.Error
+func (c *UserRepository) UpdateOneById(id int, u map[string]interface{}) (*User, error) {
+	var user User
+	result := c.db.Model(&user).Where("id = ?", id).Updates(u)
+	return &user, result.Error
 }
+
 func (c *UserRepository) DeleteOneById(id int) error {
 	result := c.db.Where("id = ?", id).Delete(&User{})
 	return result.Error
