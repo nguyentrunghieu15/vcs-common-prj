@@ -106,6 +106,7 @@ service ServerService {
       get: "/api/v1/server"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Get list user"
       responses:[
         {
           key: "401",
@@ -158,9 +159,10 @@ service ServerService {
 
   rpc GetServerByName(GetServerByNameRequest) returns (Server) {
     option (google.api.http) = {
-      get: "/api/v1/server/{name}"
+      get: "/api/v1/server/by/name"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Get server by name"
       responses:[
         {
           key: "401",
@@ -225,6 +227,7 @@ service ServerService {
       get: "/api/v1/server/{id}"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Get server by id"
       responses:[
         {
           key: "401",
@@ -287,8 +290,10 @@ service ServerService {
   rpc CreateServer(CreateServerRequest) returns (Server) {
     option (google.api.http) = {
       post: "/api/v1/server"
+      body:"*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Create server"
       responses:[
         {
           key: "401",
@@ -354,6 +359,7 @@ service ServerService {
       body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Update server"
       responses:[
         {
           key: "401",
@@ -415,9 +421,10 @@ service ServerService {
 
   rpc DeleteServerByName(DeleteServerByNameRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/api/v1/server/{name}"
+      delete: "/api/v1/server"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Delete server by name"
       responses:[
         {
           key: "401",
@@ -482,6 +489,7 @@ service ServerService {
       delete: "/api/v1/server/{id}"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Delete server by id"
       responses:[
         {
           key: "401",
@@ -544,8 +552,10 @@ service ServerService {
   rpc ExportServer(ExportServerRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/api/v1/server/export"
+      body:"*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Export server"
       responses:[
         {
           key: "401",
@@ -599,8 +609,10 @@ service ServerService {
   rpc ImportServer(stream ImportServerRequest) returns (ImportServerResponse) {
     option (google.api.http) = {
       post: "/api/v1/server/import"
+      body:"*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Import server"
       responses:[
         {
           key: "401",

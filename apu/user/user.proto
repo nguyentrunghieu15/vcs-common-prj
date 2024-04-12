@@ -78,6 +78,7 @@ service UserService {
       get: "/api/v1/user"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Get list user"
       responses:[
          {
           key: "401",
@@ -133,6 +134,7 @@ service UserService {
       get: "/api/v1/user/{id}"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Get user by id"
       responses:[
         {
           key: "401",
@@ -195,8 +197,10 @@ service UserService {
   rpc CreateUser(CreateUserRequest) returns (User) {
     option (google.api.http) = {
       post: "/api/v1/user"
+      body:"*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Create user"
       responses:[
          {
           key: "401",
@@ -259,8 +263,10 @@ service UserService {
   rpc UpdateUser(UpdateUserByIdRequest) returns (User) {
     option (google.api.http) = {
       patch: "/api/v1/user/{id}"
+      body:"*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Update user"
       responses: [
         {
           key: "401",
@@ -323,8 +329,10 @@ service UserService {
   rpc ChangePasswordUser(ChangePasswordRequest) returns (User) {
     option (google.api.http) = {
       patch: "/api/v1/user/password/change"
+      body:"*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Change password"
       responses: [
         {
           key: "401",
@@ -389,6 +397,7 @@ service UserService {
       delete: "/api/v1/user/{id}"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Delete user"
       responses:[
         {
           key: "401",
