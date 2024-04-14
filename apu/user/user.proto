@@ -42,6 +42,10 @@ message GetUserByIdRequest {
     int64 id = 1;
 }
 
+message GetUserByEmailRequest {
+  string email = 1;
+}
+
 message DeleteUserByIdRequest {
     int64 id = 1;
 }
@@ -136,6 +140,71 @@ service UserService {
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary:"Get user by id"
+      responses:[
+        {
+          key: "401",
+          value: {
+            description: "Unauthorized";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        },
+        {
+          key: "400",
+          value: {
+            description: "Bad request";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        },
+        {
+          key: "403",
+          value: {
+            description: "Forbidden, permission dennied";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        },
+        {
+          key: "500",
+          value: {
+            description: "Internal Server";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        },
+        {
+          key: "404",
+          value: {
+            description: "Not found";
+            schema: {
+              json_schema: {ref: "#/definitions/rpcStatus"}
+            }
+          }
+        }
+      ],
+      parameters:{
+        headers:[
+          {
+            name:"Authorization",
+            type:STRING,
+            required:true
+          }
+        ]
+      }
+    };
+  }
+
+  rpc GetUserByEmail(GetUserByEmailRequest) returns (User) {
+    option (google.api.http) = {
+      get: "/api/v1/user/email/{email}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary:"Get user by email"
       responses:[
         {
           key: "401",
