@@ -732,6 +732,10 @@
             "$ref": "#/definitions/Server"
           },
           "description": "The field name should match the noun \"Server\" in the method name.\nThere will be a maximum number of items returned based on the page_size field in the request."
+        },
+        "total": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },

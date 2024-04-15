@@ -57,6 +57,7 @@ message ListServersResponse {
     // The field name should match the noun "Server" in the method name.
     // There will be a maximum number of items returned based on the page_size field in the request.
     repeated Server servers = 1;
+    int64 total = 2;
 }
   
 message GetServerByNameRequest {
