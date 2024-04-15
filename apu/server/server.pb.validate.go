@@ -35,21 +35,22 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on Filter with the rules defined in the
+// Validate checks the field values on Pagination with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *Filter) Validate() error {
+func (m *Pagination) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Filter with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in FilterMultiError, or nil if none found.
-func (m *Filter) ValidateAll() error {
+// ValidateAll checks the field values on Pagination with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in PaginationMultiError, or
+// nil if none found.
+func (m *Pagination) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Filter) validate(all bool) error {
+func (m *Pagination) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -61,7 +62,7 @@ func (m *Filter) validate(all bool) error {
 		if m.GetLimit() != 0 {
 
 			if m.GetLimit() < 1 {
-				err := FilterValidationError{
+				err := PaginationValidationError{
 					field:  "Limit",
 					reason: "value must be greater than or equal to 1",
 				}
@@ -80,7 +81,7 @@ func (m *Filter) validate(all bool) error {
 		if m.GetPage() != 0 {
 
 			if m.GetPage() < 1 {
-				err := FilterValidationError{
+				err := PaginationValidationError{
 					field:  "Page",
 					reason: "value must be greater than or equal to 1",
 				}
@@ -99,7 +100,7 @@ func (m *Filter) validate(all bool) error {
 		if m.GetPageSize() != 0 {
 
 			if m.GetPageSize() < 1 {
-				err := FilterValidationError{
+				err := PaginationValidationError{
 					field:  "PageSize",
 					reason: "value must be greater than or equal to 1",
 				}
@@ -116,7 +117,7 @@ func (m *Filter) validate(all bool) error {
 	if m.Sort != nil {
 
 		if _, ok := TypeSort_name[int32(m.GetSort())]; !ok {
-			err := FilterValidationError{
+			err := PaginationValidationError{
 				field:  "Sort",
 				reason: "value must be one of the defined enum values",
 			}
@@ -133,18 +134,18 @@ func (m *Filter) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return FilterMultiError(errors)
+		return PaginationMultiError(errors)
 	}
 
 	return nil
 }
 
-// FilterMultiError is an error wrapping multiple validation errors returned by
-// Filter.ValidateAll() if the designated constraints aren't met.
-type FilterMultiError []error
+// PaginationMultiError is an error wrapping multiple validation errors
+// returned by Pagination.ValidateAll() if the designated constraints aren't met.
+type PaginationMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m FilterMultiError) Error() string {
+func (m PaginationMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -153,11 +154,11 @@ func (m FilterMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m FilterMultiError) AllErrors() []error { return m }
+func (m PaginationMultiError) AllErrors() []error { return m }
 
-// FilterValidationError is the validation error returned by Filter.Validate if
-// the designated constraints aren't met.
-type FilterValidationError struct {
+// PaginationValidationError is the validation error returned by
+// Pagination.Validate if the designated constraints aren't met.
+type PaginationValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -165,22 +166,22 @@ type FilterValidationError struct {
 }
 
 // Field function returns field value.
-func (e FilterValidationError) Field() string { return e.field }
+func (e PaginationValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e FilterValidationError) Reason() string { return e.reason }
+func (e PaginationValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e FilterValidationError) Cause() error { return e.cause }
+func (e PaginationValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e FilterValidationError) Key() bool { return e.key }
+func (e PaginationValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e FilterValidationError) ErrorName() string { return "FilterValidationError" }
+func (e PaginationValidationError) ErrorName() string { return "PaginationValidationError" }
 
 // Error satisfies the builtin error interface
-func (e FilterValidationError) Error() string {
+func (e PaginationValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -192,14 +193,14 @@ func (e FilterValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sFilter.%s: %s%s",
+		"invalid %sPagination.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = FilterValidationError{}
+var _ error = PaginationValidationError{}
 
 var _ interface {
 	Field() string
@@ -207,7 +208,126 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = FilterValidationError{}
+} = PaginationValidationError{}
+
+// Validate checks the field values on FilterServer with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *FilterServer) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FilterServer with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in FilterServerMultiError, or
+// nil if none found.
+func (m *FilterServer) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FilterServer) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.CreatedAtFrom != nil {
+		// no validation rules for CreatedAtFrom
+	}
+
+	if m.CreatedAtTo != nil {
+		// no validation rules for CreatedAtTo
+	}
+
+	if m.UpdatedAtFrom != nil {
+		// no validation rules for UpdatedAtFrom
+	}
+
+	if m.UpdatedAtTo != nil {
+		// no validation rules for UpdatedAtTo
+	}
+
+	if m.Status != nil {
+		// no validation rules for Status
+	}
+
+	if len(errors) > 0 {
+		return FilterServerMultiError(errors)
+	}
+
+	return nil
+}
+
+// FilterServerMultiError is an error wrapping multiple validation errors
+// returned by FilterServer.ValidateAll() if the designated constraints aren't met.
+type FilterServerMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FilterServerMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FilterServerMultiError) AllErrors() []error { return m }
+
+// FilterServerValidationError is the validation error returned by
+// FilterServer.Validate if the designated constraints aren't met.
+type FilterServerValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FilterServerValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FilterServerValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FilterServerValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FilterServerValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FilterServerValidationError) ErrorName() string { return "FilterServerValidationError" }
+
+// Error satisfies the builtin error interface
+func (e FilterServerValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFilterServer.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FilterServerValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FilterServerValidationError{}
 
 // Validate checks the field values on Server with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -363,6 +483,10 @@ func (m *ListServerRequest) validate(all bool) error {
 
 	var errors []error
 
+	if m.Query != nil {
+		// no validation rules for Query
+	}
+
 	if m.Filter != nil {
 
 		if all {
@@ -388,6 +512,39 @@ func (m *ListServerRequest) validate(all bool) error {
 			if err := v.Validate(); err != nil {
 				return ListServerRequestValidationError{
 					field:  "Filter",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Pagination != nil {
+
+		if all {
+			switch v := interface{}(m.GetPagination()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListServerRequestValidationError{
+						field:  "Pagination",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListServerRequestValidationError{
+						field:  "Pagination",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetPagination()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListServerRequestValidationError{
+					field:  "Pagination",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -1282,6 +1439,107 @@ var _ interface {
 	ErrorName() string
 } = DeleteServerByIdRequestValidationError{}
 
+// Validate checks the field values on FileExport with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *FileExport) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FileExport with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in FileExportMultiError, or
+// nil if none found.
+func (m *FileExport) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FileExport) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for FileName
+
+	if len(errors) > 0 {
+		return FileExportMultiError(errors)
+	}
+
+	return nil
+}
+
+// FileExportMultiError is an error wrapping multiple validation errors
+// returned by FileExport.ValidateAll() if the designated constraints aren't met.
+type FileExportMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FileExportMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FileExportMultiError) AllErrors() []error { return m }
+
+// FileExportValidationError is the validation error returned by
+// FileExport.Validate if the designated constraints aren't met.
+type FileExportValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FileExportValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FileExportValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FileExportValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FileExportValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FileExportValidationError) ErrorName() string { return "FileExportValidationError" }
+
+// Error satisfies the builtin error interface
+func (e FileExportValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFileExport.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FileExportValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FileExportValidationError{}
+
 // Validate checks the field values on ExportServerRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -1303,6 +1561,39 @@ func (m *ExportServerRequest) validate(all bool) error {
 	}
 
 	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetFile()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ExportServerRequestValidationError{
+					field:  "File",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ExportServerRequestValidationError{
+					field:  "File",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetFile()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ExportServerRequestValidationError{
+				field:  "File",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if m.Query != nil {
+		// no validation rules for Query
+	}
 
 	if m.Filter != nil {
 
@@ -1329,6 +1620,39 @@ func (m *ExportServerRequest) validate(all bool) error {
 			if err := v.Validate(); err != nil {
 				return ExportServerRequestValidationError{
 					field:  "Filter",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Pagination != nil {
+
+		if all {
+			switch v := interface{}(m.GetPagination()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ExportServerRequestValidationError{
+						field:  "Pagination",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ExportServerRequestValidationError{
+						field:  "Pagination",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetPagination()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ExportServerRequestValidationError{
+					field:  "Pagination",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -1439,45 +1763,7 @@ func (m *ImportServerRequest) validate(all bool) error {
 
 	var errors []error
 
-	if m.GetServer() == nil {
-		err := ImportServerRequestValidationError{
-			field:  "Server",
-			reason: "value is required",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if all {
-		switch v := interface{}(m.GetServer()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ImportServerRequestValidationError{
-					field:  "Server",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, ImportServerRequestValidationError{
-					field:  "Server",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetServer()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return ImportServerRequestValidationError{
-				field:  "Server",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for Chunk
 
 	if len(errors) > 0 {
 		return ImportServerRequestMultiError(errors)

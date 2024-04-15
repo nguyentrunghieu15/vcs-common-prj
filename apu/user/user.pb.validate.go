@@ -246,14 +246,14 @@ func (m *ListUsersRequest) validate(all bool) error {
 
 	var errors []error
 
-	if m.Filter != nil {
+	if m.Pagination != nil {
 
 		if all {
-			switch v := interface{}(m.GetFilter()).(type) {
+			switch v := interface{}(m.GetPagination()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, ListUsersRequestValidationError{
-						field:  "Filter",
+						field:  "Pagination",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -261,16 +261,16 @@ func (m *ListUsersRequest) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, ListUsersRequestValidationError{
-						field:  "Filter",
+						field:  "Pagination",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetFilter()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetPagination()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return ListUsersRequestValidationError{
-					field:  "Filter",
+					field:  "Pagination",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}

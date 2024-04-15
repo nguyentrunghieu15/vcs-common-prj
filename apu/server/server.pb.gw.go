@@ -355,50 +355,6 @@ func local_request_ServerService_ExportServer_0(ctx context.Context, marshaler r
 
 }
 
-func request_ServerService_ImportServer_0(ctx context.Context, marshaler runtime.Marshaler, client ServerServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var metadata runtime.ServerMetadata
-	stream, err := client.ImportServer(ctx)
-	if err != nil {
-		grpclog.Infof("Failed to start streaming: %v", err)
-		return nil, metadata, err
-	}
-	dec := marshaler.NewDecoder(req.Body)
-	for {
-		var protoReq ImportServerRequest
-		err = dec.Decode(&protoReq)
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			grpclog.Infof("Failed to decode request: %v", err)
-			return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-		}
-		if err = stream.Send(&protoReq); err != nil {
-			if err == io.EOF {
-				break
-			}
-			grpclog.Infof("Failed to send request: %v", err)
-			return nil, metadata, err
-		}
-	}
-
-	if err := stream.CloseSend(); err != nil {
-		grpclog.Infof("Failed to terminate client stream: %v", err)
-		return nil, metadata, err
-	}
-	header, err := stream.Header()
-	if err != nil {
-		grpclog.Infof("Failed to get header from client: %v", err)
-		return nil, metadata, err
-	}
-	metadata.HeaderMD = header
-
-	msg, err := stream.CloseAndRecv()
-	metadata.TrailerMD = stream.Trailer()
-	return msg, metadata, err
-
-}
-
 // RegisterServerServiceHandlerServer registers the http handlers for service ServerService to "mux".
 // UnaryRPC     :call ServerServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -603,13 +559,6 @@ func RegisterServerServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 
 		forward_ServerService_ExportServer_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
-	})
-
-	mux.Handle("POST", pattern_ServerService_ImportServer_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
-		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-		return
 	})
 
 	return nil
@@ -829,28 +778,6 @@ func RegisterServerServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 
 	})
 
-	mux.Handle("POST", pattern_ServerService_ImportServer_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/.ServerService/ImportServer", runtime.WithHTTPPathPattern("/api/v1/server/import"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_ServerService_ImportServer_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_ServerService_ImportServer_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
 	return nil
 }
 
@@ -870,8 +797,6 @@ var (
 	pattern_ServerService_DeleteServerById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "server", "id"}, ""))
 
 	pattern_ServerService_ExportServer_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "server", "export"}, ""))
-
-	pattern_ServerService_ImportServer_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "server", "import"}, ""))
 )
 
 var (
@@ -890,6 +815,4 @@ var (
 	forward_ServerService_DeleteServerById_0 = runtime.ForwardResponseMessage
 
 	forward_ServerService_ExportServer_0 = runtime.ForwardResponseMessage
-
-	forward_ServerService_ImportServer_0 = runtime.ForwardResponseMessage
 )
