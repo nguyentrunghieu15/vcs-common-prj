@@ -37,7 +37,7 @@ message FilterServer{
 }
 
 message Server{
-    int64 id = 1;
+    string id = 1;
     string created_at = 2;
     int64 created_by = 3;
     string updated_at = 4; 
@@ -67,7 +67,7 @@ message GetServerByNameRequest {
 
 message GetServerByIdRequest {
     // The field will contain name of the resource requested.
-    int64 id = 1 [(google.api.field_behavior) = REQUIRED];;
+    string id = 1 [(google.api.field_behavior) = REQUIRED];;
 }
   
 message CreateServerRequest {
@@ -80,7 +80,7 @@ message CreateServerRequest {
   
   message UpdateServerRequest {
     // The Server resource which replaces the resource on the server.
-    int64 id = 1;
+    string id = 1;
     string name =6;
     ServerStatus status =7 [(validate.rules).enum.defined_only = true];
     string ipv4 =8 [(validate.rules).string = {ipv4: true}];
@@ -93,7 +93,7 @@ message DeleteServerByNameRequest {
 
 message DeleteServerByIdRequest {
     // The resource id of the Server to be deleted.
-    int64 id = 1 [(google.api.field_behavior) = REQUIRED];;
+    string id = 1 [(google.api.field_behavior) = REQUIRED];;
 }
 
 message FileExport {
