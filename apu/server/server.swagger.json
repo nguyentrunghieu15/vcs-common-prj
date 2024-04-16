@@ -650,17 +650,14 @@
     "ExportServerRequest": {
       "type": "object",
       "properties": {
-        "query": {
-          "type": "string"
+        "file": {
+          "$ref": "#/definitions/FileExport"
         },
         "filter": {
           "$ref": "#/definitions/FilterServer"
         },
         "pagination": {
           "$ref": "#/definitions/Pagination"
-        },
-        "file": {
-          "$ref": "#/definitions/FileExport"
         }
       }
     },

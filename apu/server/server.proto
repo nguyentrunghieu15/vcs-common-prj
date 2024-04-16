@@ -101,10 +101,9 @@ message FileExport {
 }
 
 message ExportServerRequest {
-  optional string query = 1;
+  FileExport file = 1;
   optional FilterServer filter = 2;
   optional Pagination pagination = 3;
-  FileExport file = 4;
 }
 
 message ImportServerRequest {

@@ -1593,10 +1593,6 @@ func (m *ExportServerRequest) validate(all bool) error {
 		}
 	}
 
-	if m.Query != nil {
-		// no validation rules for Query
-	}
-
 	if m.Filter != nil {
 
 		if all {
