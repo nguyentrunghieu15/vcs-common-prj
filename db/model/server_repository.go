@@ -3,16 +3,17 @@ package model
 import (
 	"time"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type ServerRepositoryDecorator interface {
-	FindOneById(int) (*Server, error)
+	FindOneById(uuid.UUID) (*Server, error)
 	FindOneByName(string) (*Server, error)
 	CreateServer(map[string]interface{}) (*Server, error)
 	UpdateOneByName(string, map[string]interface{}) (*Server, error)
-	UpdateOneById(int, map[string]interface{}) (*Server, error)
-	DeleteOneById(int) error
+	UpdateOneById(uuid.UUID, map[string]interface{}) (*Server, error)
+	DeleteOneById(uuid.UUID) error
 	DeleteOneByName(string) error
 }
 
@@ -24,7 +25,7 @@ func CreateServerRepository(db *gorm.DB) *ServerRepository {
 	return &ServerRepository{db: db}
 }
 
-func (c *ServerRepository) FindOneById(id int) (*Server, error) {
+func (c *ServerRepository) FindOneById(id uuid.UUID) (*Server, error) {
 	var Server = Server{}
 	if err := c.db.First(&Server, id); err.Error != nil {
 		return nil, err.Error
@@ -54,13 +55,13 @@ func (c *ServerRepository) UpdateOneByName(name string, s map[string]interface{}
 	return &server, result.Error
 }
 
-func (c *ServerRepository) UpdateOneById(id int, s map[string]interface{}) (*Server, error) {
+func (c *ServerRepository) UpdateOneById(id uuid.UUID, s map[string]interface{}) (*Server, error) {
 	var server Server
 	s["updated_at"] = time.Now()
 	result := c.db.Model(&server).Where("id = ?", id).Updates(s)
 	return &server, result.Error
 }
-func (c *ServerRepository) DeleteOneById(id int) error {
+func (c *ServerRepository) DeleteOneById(id uuid.UUID) error {
 	result := c.db.Where("id = ?", id).Delete(&Server{})
 	return result.Error
 }

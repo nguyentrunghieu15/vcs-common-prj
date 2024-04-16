@@ -1,5 +1,6 @@
 CREATE TYPE ROLE AS ENUM ('admin', 'user');
 CREATE TYPE SERVER_STATUS AS ENUM ('on', 'off');
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -19,7 +20,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE servers (
-    id SERIAL PRIMARY KEY,
+    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY ,
     created_at TIMESTAMP,
     created_by INT,
     updated_at TIMESTAMP,
