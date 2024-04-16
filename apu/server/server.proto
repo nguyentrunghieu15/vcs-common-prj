@@ -100,10 +100,17 @@ message FileExport {
   string file_name = 1;
 }
 
+message PaginationExportRequest {
+  optional int64 from_page = 1 [(validate.rules).int64 = {gte:1 , ignore_empty:true}];
+  optional int64 to_page = 2 [(validate.rules).int64 = {gte:1 , ignore_empty:true}];
+  optional TypeSort sort = 3 [(validate.rules).enum.defined_only = true];
+  optional string sort_by = 4;
+}
+
 message ExportServerRequest {
   FileExport file = 1;
   optional FilterServer filter = 2;
-  optional Pagination pagination = 3;
+  optional PaginationExportRequest pagination = 3;
 }
 
 message ImportServerRequest {

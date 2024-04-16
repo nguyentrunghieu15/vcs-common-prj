@@ -657,7 +657,7 @@
           "$ref": "#/definitions/FilterServer"
         },
         "pagination": {
-          "$ref": "#/definitions/Pagination"
+          "$ref": "#/definitions/PaginationExportRequest"
         }
       }
     },
@@ -745,6 +745,25 @@
           "format": "int64"
         },
         "pageSize": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sort": {
+          "$ref": "#/definitions/TypeSort"
+        },
+        "sortBy": {
+          "type": "string"
+        }
+      }
+    },
+    "PaginationExportRequest": {
+      "type": "object",
+      "properties": {
+        "fromPage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "toPage": {
           "type": "string",
           "format": "int64"
         },
