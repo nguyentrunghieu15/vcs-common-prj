@@ -1463,8 +1463,6 @@ func (m *FileExport) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for FileName
-
 	if len(errors) > 0 {
 		return FileExportMultiError(errors)
 	}

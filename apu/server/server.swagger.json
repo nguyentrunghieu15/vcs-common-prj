@@ -650,6 +650,10 @@
     "ExportServerRequest": {
       "type": "object",
       "properties": {
+        "userId": {
+          "type": "string",
+          "format": "int64"
+        },
         "file": {
           "$ref": "#/definitions/FileExport"
         },
@@ -667,7 +671,10 @@
         "fileName": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "fileName"
+      ]
     },
     "FilterServer": {
       "type": "object",

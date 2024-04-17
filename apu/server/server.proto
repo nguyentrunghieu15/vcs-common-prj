@@ -88,16 +88,16 @@ message CreateServerRequest {
   
 message DeleteServerByNameRequest {
     // The resource name of the Server to be deleted.
-    string name = 1 [(google.api.field_behavior) = REQUIRED];;
+    string name = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message DeleteServerByIdRequest {
     // The resource id of the Server to be deleted.
-    string id = 1 [(google.api.field_behavior) = REQUIRED];;
+    string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message FileExport {
-  string file_name = 1;
+  string file_name = 1 [(google.api.field_behavior) = REQUIRED , (validate.rules).string = { ignore_empty:false}];
 }
 
 message PaginationExportRequest {
@@ -109,6 +109,7 @@ message PaginationExportRequest {
 }
 
 message ExportServerRequest {
+  int64 userId = 4 [(validate.rules).int64 = {ignore_empty:false}];
   FileExport file = 1;
   optional FilterServer filter = 2;
   optional PaginationExportRequest pagination = 3;
