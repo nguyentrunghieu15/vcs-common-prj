@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/file";
+
+message UploadMessage{
+    repeated bytes chunk = 1;
+}
+
+message ResponseEmpty {}
+
+message DownloadRequestMessage{
+    string path = 1;
+}
+
+message DownloadResponseMessage{
+    repeated bytes chunk = 1;
+}
+
+service FileService {
+    rpc UploadFile (stream UploadMessage) returns (ResponseEmpty);
+    rpc Download ( DownloadRequestMessage) returns (stream DownloadResponseMessage);
+}

@@ -1463,8 +1463,6 @@ func (m *FileExport) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for FileName
-
 	if len(errors) > 0 {
 		return FileExportMultiError(errors)
 	}
@@ -1542,6 +1540,184 @@ var _ interface {
 	ErrorName() string
 } = FileExportValidationError{}
 
+// Validate checks the field values on PaginationExportRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *PaginationExportRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PaginationExportRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PaginationExportRequestMultiError, or nil if none found.
+func (m *PaginationExportRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PaginationExportRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.PageSize != nil {
+
+		if m.GetPageSize() != 0 {
+
+			if m.GetPageSize() < 1 {
+				err := PaginationExportRequestValidationError{
+					field:  "PageSize",
+					reason: "value must be greater than or equal to 1",
+				}
+				if !all {
+					return err
+				}
+				errors = append(errors, err)
+			}
+
+		}
+
+	}
+
+	if m.FromPage != nil {
+
+		if m.GetFromPage() != 0 {
+
+			if m.GetFromPage() < 1 {
+				err := PaginationExportRequestValidationError{
+					field:  "FromPage",
+					reason: "value must be greater than or equal to 1",
+				}
+				if !all {
+					return err
+				}
+				errors = append(errors, err)
+			}
+
+		}
+
+	}
+
+	if m.ToPage != nil {
+
+		if m.GetToPage() != 0 {
+
+			if m.GetToPage() < 1 {
+				err := PaginationExportRequestValidationError{
+					field:  "ToPage",
+					reason: "value must be greater than or equal to 1",
+				}
+				if !all {
+					return err
+				}
+				errors = append(errors, err)
+			}
+
+		}
+
+	}
+
+	if m.Sort != nil {
+
+		if _, ok := TypeSort_name[int32(m.GetSort())]; !ok {
+			err := PaginationExportRequestValidationError{
+				field:  "Sort",
+				reason: "value must be one of the defined enum values",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if m.SortBy != nil {
+		// no validation rules for SortBy
+	}
+
+	if len(errors) > 0 {
+		return PaginationExportRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// PaginationExportRequestMultiError is an error wrapping multiple validation
+// errors returned by PaginationExportRequest.ValidateAll() if the designated
+// constraints aren't met.
+type PaginationExportRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PaginationExportRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PaginationExportRequestMultiError) AllErrors() []error { return m }
+
+// PaginationExportRequestValidationError is the validation error returned by
+// PaginationExportRequest.Validate if the designated constraints aren't met.
+type PaginationExportRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PaginationExportRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PaginationExportRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PaginationExportRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PaginationExportRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PaginationExportRequestValidationError) ErrorName() string {
+	return "PaginationExportRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e PaginationExportRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPaginationExportRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PaginationExportRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PaginationExportRequestValidationError{}
+
 // Validate checks the field values on ExportServerRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -1591,10 +1767,6 @@ func (m *ExportServerRequest) validate(all bool) error {
 				cause:  err,
 			}
 		}
-	}
-
-	if m.Query != nil {
-		// no validation rules for Query
 	}
 
 	if m.Filter != nil {
