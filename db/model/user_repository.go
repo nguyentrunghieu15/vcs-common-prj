@@ -44,6 +44,10 @@ func (c *UserRepository) CreateUser(u map[string]interface{}) (*User, error) {
 	var user User
 	u["created_at"] = time.Now()
 	result := c.db.Model(&user).Create(u)
+	if result.Error != nil {
+		return &user, result.Error
+	}
+	c.db.Where("email = ?", u["email"]).First(&user)
 	return &user, result.Error
 }
 
@@ -51,6 +55,10 @@ func (c *UserRepository) UpdateOneByEmail(email string, u map[string]interface{}
 	var user User
 	u["updated_at"] = time.Now()
 	result := c.db.Model(&user).Where("email = ?", email).Updates(u)
+	if result.Error != nil {
+		return &user, result.Error
+	}
+	c.db.Where("email = ?", email).First(&user)
 	return &user, result.Error
 }
 
@@ -58,6 +66,10 @@ func (c *UserRepository) UpdateOneById(id int, u map[string]interface{}) (*User,
 	var user User
 	u["updated_at"] = time.Now()
 	result := c.db.Model(&user).Where("id = ?", id).Updates(u)
+	if result.Error != nil {
+		return &user, result.Error
+	}
+	c.db.First(&user, id)
 	return &user, result.Error
 }
 

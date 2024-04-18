@@ -45,6 +45,10 @@ func (c *ServerRepository) CreateServer(s map[string]interface{}) (*Server, erro
 	var server Server
 	s["created_at"] = time.Now()
 	result := c.db.Model(&server).Create(s)
+	if result.Error != nil {
+		return &server, result.Error
+	}
+	c.db.Where("name = ?", s["name"]).First(&server)
 	return &server, result.Error
 }
 
@@ -52,13 +56,21 @@ func (c *ServerRepository) UpdateOneByName(name string, s map[string]interface{}
 	var server Server
 	s["updated_at"] = time.Now()
 	result := c.db.Model(&server).Where("name = ?", name).Updates(s)
+	if result.Error != nil {
+		return &server, result.Error
+	}
+	c.db.Where("name = ?", name).First(&server)
 	return &server, result.Error
 }
 
 func (c *ServerRepository) UpdateOneById(id uuid.UUID, s map[string]interface{}) (*Server, error) {
 	var server Server
 	s["updated_at"] = time.Now()
-	result := c.db.Model(&server).Where("id = ?", id).Updates(s)
+	result := c.db.Model(&Server{}).Where("id = ?", id).Updates(s)
+	if result.Error != nil {
+		return &server, result.Error
+	}
+	c.db.First(&server, id)
 	return &server, result.Error
 }
 func (c *ServerRepository) DeleteOneById(id uuid.UUID) error {
