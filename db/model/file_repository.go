@@ -12,6 +12,10 @@ type FileRepository struct {
 	db *gorm.DB
 }
 
+func NewFileRepository(db *gorm.DB) *FileRepository {
+	return &FileRepository{db: db}
+}
+
 func (f *FileRepository) FindFileById(id uuid.UUID) (*File, error) {
 	var file File
 	result := f.db.First(&file, id)
