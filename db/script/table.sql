@@ -31,7 +31,7 @@ CREATE TABLE servers (
     "name" VARCHAR(2000) NOT NULL UNIQUE,
     status SERVER_STATUS,
     ipv4 VARCHAR(16)
-    foreign key created_by references uses(id)
+    foreign key (created_by) references uses(id)
 )
 
 CREATE TABLE files (
@@ -47,5 +47,5 @@ CREATE TABLE files (
     file_size INT,
     status FILE_STATUS,
     owner INT,
-    foreign key owner references users(id)
+    foreign key (owner) references users(id)
 )

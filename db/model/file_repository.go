@@ -22,7 +22,7 @@ func (f *FileRepository) FindFileById(id uuid.UUID) (*File, error) {
 	return &file, result.Error
 }
 
-func (f *FileRepository) UpdateFileById(id uuid.UUID, data map[string]string) (*File, error) {
+func (f *FileRepository) UpdateFileById(id uuid.UUID, data map[string]interface{}) (*File, error) {
 	result := f.db.Model(&File{}).Where("id = ?", id).Updates(data)
 	if result.Error != nil {
 		return nil, result.Error
@@ -32,7 +32,7 @@ func (f *FileRepository) UpdateFileById(id uuid.UUID, data map[string]string) (*
 	return &file, nil
 }
 
-func (f *FileRepository) CreateFile(data map[string]string) error {
+func (f *FileRepository) CreateFile(data map[string]interface{}) error {
 	result := f.db.Model(&File{}).Create(data)
 	return result.Error
 }
