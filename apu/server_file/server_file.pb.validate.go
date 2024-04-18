@@ -57,6 +57,8 @@ func (m *UploadMessage) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Chunk
+
 	if len(errors) > 0 {
 		return UploadMessageMultiError(errors)
 	}
@@ -360,6 +362,8 @@ func (m *DownloadResponseMessage) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Chunk
 
 	if len(errors) > 0 {
 		return DownloadResponseMessageMultiError(errors)

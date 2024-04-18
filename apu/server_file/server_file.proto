@@ -3,7 +3,7 @@ syntax = "proto3";
 option go_package = "github.com/nguyentrunghieu15/vcs-common-prj/apu/file";
 
 message UploadMessage{
-    repeated bytes chunk = 1;
+    bytes chunk = 1;
 }
 
 message ResponseEmpty {}
@@ -13,7 +13,7 @@ message DownloadRequestMessage{
 }
 
 message DownloadResponseMessage{
-    repeated bytes chunk = 1;
+    bytes chunk = 1;
 }
 
 service FileService {
