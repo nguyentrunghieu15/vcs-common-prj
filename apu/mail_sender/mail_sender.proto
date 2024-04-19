@@ -16,7 +16,7 @@ message RequestSendStatisticServerToEmail{
 }
 
 
-service FileService {
+service MailServer {
     rpc SendStatisticServerToEmail (RequestSendStatisticServerToEmail) returns (google.protobuf.Empty){
         option (google.api.http) = {
             post: "/api/v1/mail"

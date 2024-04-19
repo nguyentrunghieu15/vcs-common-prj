@@ -31,7 +31,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_FileService_SendStatisticServerToEmail_0(ctx context.Context, marshaler runtime.Marshaler, client FileServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_MailServer_SendStatisticServerToEmail_0(ctx context.Context, marshaler runtime.Marshaler, client MailServerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq RequestSendStatisticServerToEmail
 	var metadata runtime.ServerMetadata
 
@@ -44,7 +44,7 @@ func request_FileService_SendStatisticServerToEmail_0(ctx context.Context, marsh
 
 }
 
-func local_request_FileService_SendStatisticServerToEmail_0(ctx context.Context, marshaler runtime.Marshaler, server FileServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_MailServer_SendStatisticServerToEmail_0(ctx context.Context, marshaler runtime.Marshaler, server MailServerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq RequestSendStatisticServerToEmail
 	var metadata runtime.ServerMetadata
 
@@ -57,13 +57,13 @@ func local_request_FileService_SendStatisticServerToEmail_0(ctx context.Context,
 
 }
 
-// RegisterFileServiceHandlerServer registers the http handlers for service FileService to "mux".
-// UnaryRPC     :call FileServiceServer directly.
+// RegisterMailServerHandlerServer registers the http handlers for service MailServer to "mux".
+// UnaryRPC     :call MailServerServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterFileServiceHandlerFromEndpoint instead.
-func RegisterFileServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server FileServiceServer) error {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterMailServerHandlerFromEndpoint instead.
+func RegisterMailServerHandlerServer(ctx context.Context, mux *runtime.ServeMux, server MailServerServer) error {
 
-	mux.Handle("POST", pattern_FileService_SendStatisticServerToEmail_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MailServer_SendStatisticServerToEmail_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -71,12 +71,12 @@ func RegisterFileServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.FileService/SendStatisticServerToEmail", runtime.WithHTTPPathPattern("/api/v1/mail"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.MailServer/SendStatisticServerToEmail", runtime.WithHTTPPathPattern("/api/v1/mail"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_FileService_SendStatisticServerToEmail_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_MailServer_SendStatisticServerToEmail_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -84,16 +84,16 @@ func RegisterFileServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 			return
 		}
 
-		forward_FileService_SendStatisticServerToEmail_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MailServer_SendStatisticServerToEmail_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterFileServiceHandlerFromEndpoint is same as RegisterFileServiceHandler but
+// RegisterMailServerHandlerFromEndpoint is same as RegisterMailServerHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterFileServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterMailServerHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
@@ -113,41 +113,41 @@ func RegisterFileServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.Se
 		}()
 	}()
 
-	return RegisterFileServiceHandler(ctx, mux, conn)
+	return RegisterMailServerHandler(ctx, mux, conn)
 }
 
-// RegisterFileServiceHandler registers the http handlers for service FileService to "mux".
+// RegisterMailServerHandler registers the http handlers for service MailServer to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterFileServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterFileServiceHandlerClient(ctx, mux, NewFileServiceClient(conn))
+func RegisterMailServerHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterMailServerHandlerClient(ctx, mux, NewMailServerClient(conn))
 }
 
-// RegisterFileServiceHandlerClient registers the http handlers for service FileService
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "FileServiceClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "FileServiceClient"
+// RegisterMailServerHandlerClient registers the http handlers for service MailServer
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "MailServerClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "MailServerClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "FileServiceClient" to call the correct interceptors.
-func RegisterFileServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client FileServiceClient) error {
+// "MailServerClient" to call the correct interceptors.
+func RegisterMailServerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client MailServerClient) error {
 
-	mux.Handle("POST", pattern_FileService_SendStatisticServerToEmail_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MailServer_SendStatisticServerToEmail_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/.FileService/SendStatisticServerToEmail", runtime.WithHTTPPathPattern("/api/v1/mail"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/.MailServer/SendStatisticServerToEmail", runtime.WithHTTPPathPattern("/api/v1/mail"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_FileService_SendStatisticServerToEmail_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_MailServer_SendStatisticServerToEmail_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_FileService_SendStatisticServerToEmail_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MailServer_SendStatisticServerToEmail_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -155,9 +155,9 @@ func RegisterFileServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 }
 
 var (
-	pattern_FileService_SendStatisticServerToEmail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "mail"}, ""))
+	pattern_MailServer_SendStatisticServerToEmail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "mail"}, ""))
 )
 
 var (
-	forward_FileService_SendStatisticServerToEmail_0 = runtime.ForwardResponseMessage
+	forward_MailServer_SendStatisticServerToEmail_0 = runtime.ForwardResponseMessage
 )
