@@ -60,7 +60,16 @@ service MailServer {
                     }
                   }
                 }
-              ]
+              ],
+              parameters:{
+                headers:[
+                  {
+                    name:"Authorization",
+                    type:STRING,
+                    required:true
+                  }
+                ]
+              }
             };
         }
     }
