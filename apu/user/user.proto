@@ -126,7 +126,7 @@ service UserService {
     };
   }
 
-  rpc GetUser(GetUserByIdRequest) returns (User) {
+  rpc GetUser(GetUserByIdRequest) returns (ResponseUser) {
     option (google.api.http) = {
       get: "/api/v1/user/{id}"
     };
@@ -144,7 +144,7 @@ service UserService {
     };
   }
 
-  rpc GetUserByEmail(GetUserByEmailRequest) returns (User) {
+  rpc GetUserByEmail(GetUserByEmailRequest) returns (ResponseUser) {
     option (google.api.http) = {
       get: "/api/v1/user/email/{email}"
     };
@@ -162,7 +162,7 @@ service UserService {
     };
   }
 
-  rpc CreateUser(CreateUserRequest) returns (User) {
+  rpc CreateUser(CreateUserRequest) returns (ResponseUser) {
     option (google.api.http) = {
       post: "/api/v1/user"
       body:"*"
@@ -181,7 +181,7 @@ service UserService {
     };
   }
 
-  rpc UpdateUser(UpdateUserByIdRequest) returns (User) {
+  rpc UpdateUser(UpdateUserByIdRequest) returns (ResponseUser) {
     option (google.api.http) = {
       patch: "/api/v1/user/{id}"
       body:"*"
@@ -200,7 +200,7 @@ service UserService {
     };
   }
 
-  rpc ChangePasswordUser(ChangePasswordRequest) returns (User) {
+  rpc ChangePasswordUser(ChangePasswordRequest) returns (ResponseUser) {
     option (google.api.http) = {
       patch: "/api/v1/user/password/change"
       body:"*"

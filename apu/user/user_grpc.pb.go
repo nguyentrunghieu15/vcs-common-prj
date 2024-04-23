@@ -24,11 +24,11 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
-	GetUser(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*User, error)
-	GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*User, error)
-	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error)
-	UpdateUser(ctx context.Context, in *UpdateUserByIdRequest, opts ...grpc.CallOption) (*User, error)
-	ChangePasswordUser(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*User, error)
+	GetUser(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*ResponseUser, error)
+	GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*ResponseUser, error)
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*ResponseUser, error)
+	UpdateUser(ctx context.Context, in *UpdateUserByIdRequest, opts ...grpc.CallOption) (*ResponseUser, error)
+	ChangePasswordUser(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*ResponseUser, error)
 	DeleteUser(ctx context.Context, in *DeleteUserByIdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -49,8 +49,8 @@ func (c *userServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest,
 	return out, nil
 }
 
-func (c *userServiceClient) GetUser(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*User, error) {
-	out := new(User)
+func (c *userServiceClient) GetUser(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*ResponseUser, error) {
+	out := new(ResponseUser)
 	err := c.cc.Invoke(ctx, "/UserService/GetUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -58,8 +58,8 @@ func (c *userServiceClient) GetUser(ctx context.Context, in *GetUserByIdRequest,
 	return out, nil
 }
 
-func (c *userServiceClient) GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*User, error) {
-	out := new(User)
+func (c *userServiceClient) GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*ResponseUser, error) {
+	out := new(ResponseUser)
 	err := c.cc.Invoke(ctx, "/UserService/GetUserByEmail", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -67,8 +67,8 @@ func (c *userServiceClient) GetUserByEmail(ctx context.Context, in *GetUserByEma
 	return out, nil
 }
 
-func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error) {
-	out := new(User)
+func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*ResponseUser, error) {
+	out := new(ResponseUser)
 	err := c.cc.Invoke(ctx, "/UserService/CreateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -76,8 +76,8 @@ func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserReques
 	return out, nil
 }
 
-func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserByIdRequest, opts ...grpc.CallOption) (*User, error) {
-	out := new(User)
+func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserByIdRequest, opts ...grpc.CallOption) (*ResponseUser, error) {
+	out := new(ResponseUser)
 	err := c.cc.Invoke(ctx, "/UserService/UpdateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -85,8 +85,8 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserByIdRe
 	return out, nil
 }
 
-func (c *userServiceClient) ChangePasswordUser(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*User, error) {
-	out := new(User)
+func (c *userServiceClient) ChangePasswordUser(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*ResponseUser, error) {
+	out := new(ResponseUser)
 	err := c.cc.Invoke(ctx, "/UserService/ChangePasswordUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -108,11 +108,11 @@ func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserByIdRe
 // for forward compatibility
 type UserServiceServer interface {
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
-	GetUser(context.Context, *GetUserByIdRequest) (*User, error)
-	GetUserByEmail(context.Context, *GetUserByEmailRequest) (*User, error)
-	CreateUser(context.Context, *CreateUserRequest) (*User, error)
-	UpdateUser(context.Context, *UpdateUserByIdRequest) (*User, error)
-	ChangePasswordUser(context.Context, *ChangePasswordRequest) (*User, error)
+	GetUser(context.Context, *GetUserByIdRequest) (*ResponseUser, error)
+	GetUserByEmail(context.Context, *GetUserByEmailRequest) (*ResponseUser, error)
+	CreateUser(context.Context, *CreateUserRequest) (*ResponseUser, error)
+	UpdateUser(context.Context, *UpdateUserByIdRequest) (*ResponseUser, error)
+	ChangePasswordUser(context.Context, *ChangePasswordRequest) (*ResponseUser, error)
 	DeleteUser(context.Context, *DeleteUserByIdRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
@@ -124,19 +124,19 @@ type UnimplementedUserServiceServer struct {
 func (UnimplementedUserServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
 }
-func (UnimplementedUserServiceServer) GetUser(context.Context, *GetUserByIdRequest) (*User, error) {
+func (UnimplementedUserServiceServer) GetUser(context.Context, *GetUserByIdRequest) (*ResponseUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
-func (UnimplementedUserServiceServer) GetUserByEmail(context.Context, *GetUserByEmailRequest) (*User, error) {
+func (UnimplementedUserServiceServer) GetUserByEmail(context.Context, *GetUserByEmailRequest) (*ResponseUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserByEmail not implemented")
 }
-func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserRequest) (*User, error) {
+func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserRequest) (*ResponseUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UpdateUserByIdRequest) (*User, error) {
+func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UpdateUserByIdRequest) (*ResponseUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
-func (UnimplementedUserServiceServer) ChangePasswordUser(context.Context, *ChangePasswordRequest) (*User, error) {
+func (UnimplementedUserServiceServer) ChangePasswordUser(context.Context, *ChangePasswordRequest) (*ResponseUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangePasswordUser not implemented")
 }
 func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserByIdRequest) (*emptypb.Empty, error) {

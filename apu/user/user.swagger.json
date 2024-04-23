@@ -92,7 +92,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/ResponseUser"
             }
           },
           "default": {
@@ -131,7 +131,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/ResponseUser"
             }
           },
           "default": {
@@ -168,7 +168,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/ResponseUser"
             }
           },
           "default": {
@@ -207,7 +207,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/ResponseUser"
             }
           },
           "default": {
@@ -280,7 +280,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/ResponseUser"
             }
           },
           "default": {
@@ -478,70 +478,6 @@
       "default": "NONE"
     },
     "UpdateUserByIdRequestRole": {
-      "type": "string",
-      "enum": [
-        "none",
-        "admin",
-        "user"
-      ],
-      "default": "none"
-    },
-    "User": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "createdAt": {
-          "type": "string"
-        },
-        "createdBy": {
-          "type": "string",
-          "format": "int64"
-        },
-        "updatedAt": {
-          "type": "string"
-        },
-        "updatedBy": {
-          "type": "string",
-          "format": "int64"
-        },
-        "email": {
-          "type": "string"
-        },
-        "fullName": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "isSupperAdmin": {
-          "type": "boolean"
-        },
-        "roles": {
-          "$ref": "#/definitions/UserRole"
-        },
-        "deletedAt": {
-          "type": "string"
-        },
-        "deletedBy": {
-          "type": "string",
-          "format": "int64"
-        },
-        "password": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "email",
-        "roles"
-      ]
-    },
-    "UserRole": {
       "type": "string",
       "enum": [
         "none",
