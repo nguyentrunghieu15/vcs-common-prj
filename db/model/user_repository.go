@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserRepositoryDecorator interface {
+type IUserRepository interface {
 	FindOneById(int) (*User, error)
 	FindOneByEmail(string) (*User, error)
 	CreateUser(map[string]interface{}) (*User, error)
@@ -20,7 +20,7 @@ type UserRepository struct {
 	db *gorm.DB
 }
 
-func CreateUserRepository(db *gorm.DB) *UserRepository {
+func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 

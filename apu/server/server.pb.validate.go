@@ -360,9 +360,13 @@ func (m *Server) validate(all bool) error {
 
 	// no validation rules for UpdatedBy
 
+	// no validation rules for DeletedAt
+
+	// no validation rules for DeletedBy
+
 	// no validation rules for Name
 
-	if _, ok := ServerStatus_name[int32(m.GetStatus())]; !ok {
+	if _, ok := Server_ServerStatus_name[int32(m.GetStatus())]; !ok {
 		err := ServerValidationError{
 			field:  "Status",
 			reason: "value must be one of the defined enum values",
@@ -1003,7 +1007,7 @@ func (m *CreateServerRequest) validate(all bool) error {
 
 	// no validation rules for Name
 
-	if _, ok := ServerStatus_name[int32(m.GetStatus())]; !ok {
+	if _, ok := CreateServerRequest_ServerStatus_name[int32(m.GetStatus())]; !ok {
 		err := CreateServerRequestValidationError{
 			field:  "Status",
 			reason: "value must be one of the defined enum values",
@@ -1131,7 +1135,7 @@ func (m *UpdateServerRequest) validate(all bool) error {
 
 	// no validation rules for Name
 
-	if _, ok := ServerStatus_name[int32(m.GetStatus())]; !ok {
+	if _, ok := UpdateServerRequest_ServerStatus_name[int32(m.GetStatus())]; !ok {
 		err := UpdateServerRequestValidationError{
 			field:  "Status",
 			reason: "value must be one of the defined enum values",

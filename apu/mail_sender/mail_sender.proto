@@ -23,44 +23,6 @@ service MailServer {
             body:"*"
           };
           option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-              responses: [
-                {
-                  key: "401",
-                  value: {
-                    description: "Unauthorized";
-                    schema: {
-                      json_schema: {ref: "#/definitions/rpcStatus"}
-                    }
-                  }
-                },
-                {
-                  key: "400",
-                  value: {
-                    description: "Bad Request";
-                    schema: {
-                      json_schema: {ref: "#/definitions/rpcStatus"}
-                    }
-                  }
-                },
-                {
-                  key: "404",
-                  value: {
-                    description: "Not found";
-                    schema: {
-                      json_schema: {ref: "#/definitions/rpcStatus"}
-                    }
-                  }
-                },
-                {
-                  key: "500",
-                  value: {
-                    description: "Internal Server";
-                    schema: {
-                      json_schema: {ref: "#/definitions/rpcStatus"}
-                    }
-                  }
-                }
-              ],
               parameters:{
                 headers:[
                   {

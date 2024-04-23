@@ -9,14 +9,12 @@ import "google/protobuf/empty.proto";
 import "apu/server/server.proto";
 import "validate/validate.proto";
 
-
-enum UserRole {
-    RoleNone = 0;
-    RoleAdmin = 1;
-    RoleUser = 2;
-}
-
 message User {
+  enum Role {
+    none = 0;
+    admin = 1;
+    user = 2;
+  }
   int64 id = 1;
   string created_at = 2;
   int64 created_by = 3;
@@ -27,7 +25,31 @@ message User {
   string phone = 8;
   string avatar = 9;
   bool is_supper_admin =10;
-  UserRole roles = 11 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
+  Role roles = 11 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
+  string deleted_at = 12;
+  int64 deleted_by =13;
+  string password=14;
+}
+
+message ResponseUser {
+  enum Role {
+    none = 0;
+    admin = 1;
+    user = 2;
+  }
+  int64 id = 1;
+  string created_at = 2;
+  int64 created_by = 3;
+  string updated_at = 4; 
+  int64 updated_by =5;
+  string deleted_at = 12;
+  int64 deleted_by =13;
+  string email = 6 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {email: true}];
+  string full_name = 7;
+  string phone = 8;
+  string avatar = 9;
+  bool is_supper_admin =10;
+  Role roles = 11 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
 }
 
 message ListUsersRequest {
@@ -35,7 +57,7 @@ message ListUsersRequest {
 }
 
 message ListUsersResponse {
-    repeated User users = 1;
+    repeated ResponseUser users = 1;
 }
 
 message GetUserByIdRequest {
@@ -51,23 +73,31 @@ message DeleteUserByIdRequest {
 }
 
 message CreateUserRequest {
+  enum Role {
+    none = 0;
+    admin = 1;
+    user = 2;
+  }
   string email = 1 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {email: true}];
   string full_name = 2;
   string phone = 3;
   string avatar = 4;
-  bool is_supper_admin =5;
-  UserRole roles = 6 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
   string password = 7 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {min_len: 6}];
+  Role roles = 6 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
 }
 
 message UpdateUserByIdRequest {
+  enum Role {
+    none = 0;
+    admin = 1;
+    user = 2;
+  }
+  int64 id = 7;
   string email = 1 [(google.api.field_behavior) = REQUIRED, (validate.rules).string = {email: true}];
   string full_name = 2;
   string phone = 3;
   string avatar = 4;
-  bool is_supper_admin =5;
-  UserRole roles = 6 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
-  int64 id = 8;
+  Role roles = 6 [(google.api.field_behavior) = REQUIRED, (validate.rules).enum.defined_only = true];
 }
 
 message ChangePasswordRequest {
@@ -84,44 +114,6 @@ service UserService {
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary:"Get list user"
-      responses:[
-         {
-          key: "401",
-          value: {
-            description: "Unauthorized";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "400",
-          value: {
-            description: "Bad request";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "403",
-          value: {
-            description: "Forbidden, permission dennied";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "500",
-          value: {
-            description: "Internal Server";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        }
-      ],
       parameters:{
         headers:[
           {
@@ -140,53 +132,6 @@ service UserService {
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary:"Get user by id"
-      responses:[
-        {
-          key: "401",
-          value: {
-            description: "Unauthorized";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "400",
-          value: {
-            description: "Bad request";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "403",
-          value: {
-            description: "Forbidden, permission dennied";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "500",
-          value: {
-            description: "Internal Server";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "404",
-          value: {
-            description: "Not found";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        }
-      ],
       parameters:{
         headers:[
           {
@@ -205,53 +150,6 @@ service UserService {
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary:"Get user by email"
-      responses:[
-        {
-          key: "401",
-          value: {
-            description: "Unauthorized";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "400",
-          value: {
-            description: "Bad request";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "403",
-          value: {
-            description: "Forbidden, permission dennied";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "500",
-          value: {
-            description: "Internal Server";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "404",
-          value: {
-            description: "Not found";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        }
-      ],
       parameters:{
         headers:[
           {
@@ -271,53 +169,6 @@ service UserService {
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary:"Create user"
-      responses:[
-         {
-          key: "401",
-          value: {
-            description: "Unauthorized";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "400",
-          value: {
-            description: "Bad request";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "500",
-          value: {
-            description: "Internal Server";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "403",
-          value: {
-            description: "Forbidden, permission dennied";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "409",
-          value: {
-            description: "Already exists";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        }
-      ],
       parameters:{
         headers:[
           {
@@ -337,53 +188,6 @@ service UserService {
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary:"Update user"
-      responses: [
-        {
-          key: "401",
-          value: {
-            description: "Unauthorized";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "400",
-          value: {
-            description: "Bad request";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "500",
-          value: {
-            description: "Internal Server";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "404",
-          value: {
-            description: "Not found";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "403",
-          value: {
-            description: "Forbidden, permission dennied";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        }
-      ],
       parameters:{
         headers:[
           {
@@ -403,53 +207,6 @@ service UserService {
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary:"Change password"
-      responses: [
-        {
-          key: "401",
-          value: {
-            description: "Unauthorized";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "400",
-          value: {
-            description: "Bad request";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "500",
-          value: {
-            description: "Internal Server";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "404",
-          value: {
-            description: "Not found";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "403",
-          value: {
-            description: "Forbidden, permission dennied";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        }
-      ],
       parameters:{
         headers:[
           {
@@ -468,53 +225,6 @@ service UserService {
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary:"Delete user"
-      responses:[
-        {
-          key: "401",
-          value: {
-            description: "Unauthorized";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "403",
-          value: {
-            description: "Forbidden, permission dennied";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "400",
-          value: {
-            description: "Bad request";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "500",
-          value: {
-            description: "Internal Server";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        },
-        {
-          key: "404",
-          value: {
-            description: "Not found";
-            schema: {
-              json_schema: {ref: "#/definitions/rpcStatus"}
-            }
-          }
-        }
-      ],
       parameters:{
         headers:[
           {

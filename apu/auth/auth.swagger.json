@@ -26,30 +26,6 @@
               "$ref": "#/definitions/LoginResponse"
             }
           },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "500": {
-            "description": "Internal Server",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -84,24 +60,6 @@
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/RefreshTokenResponse"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "500": {
-            "description": "Internal Server",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
             }
           },
           "default": {

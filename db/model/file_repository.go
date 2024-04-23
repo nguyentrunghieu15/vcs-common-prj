@@ -5,7 +5,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type FileRepositoryInterface interface {
+type IFileRepository interface {
+	CreateFile(map[string]interface{}) error
+	DeleteFileById(uuid.UUID) error
+	FindAllFileOfUser(int) (*[]File, error)
+	FindFileById(uuid.UUID) (*File, error)
+	UpdateFileById(uuid.UUID, map[string]interface{}) (*File, error)
 }
 
 type FileRepository struct {

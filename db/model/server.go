@@ -15,14 +15,14 @@ const (
 )
 
 type Server struct {
-	ID        uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4()"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
-	CreatedBy int
-	UpdatedBy int
-	DeletedBy int
-	Name      string
-	Status    ServerStatus
-	Ipv4      string
+	ID        uuid.UUID      `gorm:"type:uuid;default:uuid_generate_v4()" json:"id"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`
+	CreatedBy int            `json:"createdBy"`
+	UpdatedBy int            `json:"updatedBy"`
+	DeletedBy int            `json:"deletedBy"`
+	Name      string         `json:"name"`
+	Status    ServerStatus   `json:"status"`
+	Ipv4      string         `json:"ipv4"`
 }

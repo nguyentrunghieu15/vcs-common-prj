@@ -86,7 +86,7 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for IsSupperAdmin
 
-	if _, ok := UserRole_name[int32(m.GetRoles())]; !ok {
+	if _, ok := User_Role_name[int32(m.GetRoles())]; !ok {
 		err := UserValidationError{
 			field:  "Roles",
 			reason: "value must be one of the defined enum values",
@@ -96,6 +96,12 @@ func (m *User) validate(all bool) error {
 		}
 		errors = append(errors, err)
 	}
+
+	// no validation rules for DeletedAt
+
+	// no validation rules for DeletedBy
+
+	// no validation rules for Password
 
 	if len(errors) > 0 {
 		return UserMultiError(errors)
@@ -223,6 +229,200 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = UserValidationError{}
+
+// Validate checks the field values on ResponseUser with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ResponseUser) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ResponseUser with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ResponseUserMultiError, or
+// nil if none found.
+func (m *ResponseUser) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ResponseUser) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for CreatedAt
+
+	// no validation rules for CreatedBy
+
+	// no validation rules for UpdatedAt
+
+	// no validation rules for UpdatedBy
+
+	// no validation rules for DeletedAt
+
+	// no validation rules for DeletedBy
+
+	if err := m._validateEmail(m.GetEmail()); err != nil {
+		err = ResponseUserValidationError{
+			field:  "Email",
+			reason: "value must be a valid email address",
+			cause:  err,
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for FullName
+
+	// no validation rules for Phone
+
+	// no validation rules for Avatar
+
+	// no validation rules for IsSupperAdmin
+
+	if _, ok := ResponseUser_Role_name[int32(m.GetRoles())]; !ok {
+		err := ResponseUserValidationError{
+			field:  "Roles",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return ResponseUserMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *ResponseUser) _validateHostname(host string) error {
+	s := strings.ToLower(strings.TrimSuffix(host, "."))
+
+	if len(host) > 253 {
+		return errors.New("hostname cannot exceed 253 characters")
+	}
+
+	for _, part := range strings.Split(s, ".") {
+		if l := len(part); l == 0 || l > 63 {
+			return errors.New("hostname part must be non-empty and cannot exceed 63 characters")
+		}
+
+		if part[0] == '-' {
+			return errors.New("hostname parts cannot begin with hyphens")
+		}
+
+		if part[len(part)-1] == '-' {
+			return errors.New("hostname parts cannot end with hyphens")
+		}
+
+		for _, r := range part {
+			if (r < 'a' || r > 'z') && (r < '0' || r > '9') && r != '-' {
+				return fmt.Errorf("hostname parts can only contain alphanumeric characters or hyphens, got %q", string(r))
+			}
+		}
+	}
+
+	return nil
+}
+
+func (m *ResponseUser) _validateEmail(addr string) error {
+	a, err := mail.ParseAddress(addr)
+	if err != nil {
+		return err
+	}
+	addr = a.Address
+
+	if len(addr) > 254 {
+		return errors.New("email addresses cannot exceed 254 characters")
+	}
+
+	parts := strings.SplitN(addr, "@", 2)
+
+	if len(parts[0]) > 64 {
+		return errors.New("email address local phrase cannot exceed 64 characters")
+	}
+
+	return m._validateHostname(parts[1])
+}
+
+// ResponseUserMultiError is an error wrapping multiple validation errors
+// returned by ResponseUser.ValidateAll() if the designated constraints aren't met.
+type ResponseUserMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ResponseUserMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ResponseUserMultiError) AllErrors() []error { return m }
+
+// ResponseUserValidationError is the validation error returned by
+// ResponseUser.Validate if the designated constraints aren't met.
+type ResponseUserValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ResponseUserValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ResponseUserValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ResponseUserValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ResponseUserValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ResponseUserValidationError) ErrorName() string { return "ResponseUserValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ResponseUserValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sResponseUser.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ResponseUserValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ResponseUserValidationError{}
 
 // Validate checks the field values on ListUsersRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -845,12 +1045,10 @@ func (m *CreateUserRequest) validate(all bool) error {
 
 	// no validation rules for Avatar
 
-	// no validation rules for IsSupperAdmin
-
-	if _, ok := UserRole_name[int32(m.GetRoles())]; !ok {
+	if utf8.RuneCountInString(m.GetPassword()) < 6 {
 		err := CreateUserRequestValidationError{
-			field:  "Roles",
-			reason: "value must be one of the defined enum values",
+			field:  "Password",
+			reason: "value length must be at least 6 runes",
 		}
 		if !all {
 			return err
@@ -858,10 +1056,10 @@ func (m *CreateUserRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetPassword()) < 6 {
+	if _, ok := CreateUserRequest_Role_name[int32(m.GetRoles())]; !ok {
 		err := CreateUserRequestValidationError{
-			field:  "Password",
-			reason: "value length must be at least 6 runes",
+			field:  "Roles",
+			reason: "value must be one of the defined enum values",
 		}
 		if !all {
 			return err
@@ -1021,6 +1219,8 @@ func (m *UpdateUserByIdRequest) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
 	if err := m._validateEmail(m.GetEmail()); err != nil {
 		err = UpdateUserByIdRequestValidationError{
 			field:  "Email",
@@ -1039,9 +1239,7 @@ func (m *UpdateUserByIdRequest) validate(all bool) error {
 
 	// no validation rules for Avatar
 
-	// no validation rules for IsSupperAdmin
-
-	if _, ok := UserRole_name[int32(m.GetRoles())]; !ok {
+	if _, ok := UpdateUserByIdRequest_Role_name[int32(m.GetRoles())]; !ok {
 		err := UpdateUserByIdRequestValidationError{
 			field:  "Roles",
 			reason: "value must be one of the defined enum values",
@@ -1051,8 +1249,6 @@ func (m *UpdateUserByIdRequest) validate(all bool) error {
 		}
 		errors = append(errors, err)
 	}
-
-	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return UpdateUserByIdRequestMultiError(errors)

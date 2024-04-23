@@ -17,9 +17,9 @@ const (
 )
 
 type FilterQuery struct {
-	Limit    int64
-	Page     int64
-	PageSize int64
-	Sorted   TypeSort
-	SortedBy string
+	Limit    int64    `json:"limit"`
+	Page     int64    `json:"page"`
+	PageSize int64    `json:"pageSize"`
+	Sorted   TypeSort `json:"sorted"`
+	SortedBy string   `json:"sortedBy"`
 }

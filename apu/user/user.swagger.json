@@ -27,30 +27,6 @@
               "$ref": "#/definitions/ListUsersResponse"
             }
           },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "403": {
-            "description": "Forbidden, permission dennied",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "500": {
-            "description": "Internal Server",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -119,36 +95,6 @@
               "$ref": "#/definitions/User"
             }
           },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "403": {
-            "description": "Forbidden, permission dennied",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "409": {
-            "description": "Already exists",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "500": {
-            "description": "Internal Server",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -188,36 +134,6 @@
               "$ref": "#/definitions/User"
             }
           },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "403": {
-            "description": "Forbidden, permission dennied",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "500": {
-            "description": "Internal Server",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -253,36 +169,6 @@
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "403": {
-            "description": "Forbidden, permission dennied",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "500": {
-            "description": "Internal Server",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
             }
           },
           "default": {
@@ -324,36 +210,6 @@
               "$ref": "#/definitions/User"
             }
           },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "403": {
-            "description": "Forbidden, permission dennied",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "500": {
-            "description": "Internal Server",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -391,36 +247,6 @@
               "properties": {}
             }
           },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "403": {
-            "description": "Forbidden, permission dennied",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "500": {
-            "description": "Internal Server",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -455,36 +281,6 @@
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "403": {
-            "description": "Forbidden, permission dennied",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          },
-          "500": {
-            "description": "Internal Server",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
             }
           },
           "default": {
@@ -554,21 +350,27 @@
         "avatar": {
           "type": "string"
         },
-        "isSupperAdmin": {
-          "type": "boolean"
-        },
-        "roles": {
-          "$ref": "#/definitions/UserRole"
-        },
         "password": {
           "type": "string"
+        },
+        "roles": {
+          "$ref": "#/definitions/CreateUserRequestRole"
         }
       },
       "required": [
         "email",
-        "roles",
-        "password"
+        "password",
+        "roles"
       ]
+    },
+    "CreateUserRequestRole": {
+      "type": "string",
+      "enum": [
+        "none",
+        "admin",
+        "user"
+      ],
+      "default": "none"
     },
     "ListUsersResponse": {
       "type": "object",
@@ -577,7 +379,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/User"
+            "$ref": "#/definitions/ResponseUser"
           }
         }
       }
@@ -605,6 +407,67 @@
         }
       }
     },
+    "ResponseUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "int64"
+        },
+        "deletedAt": {
+          "type": "string"
+        },
+        "deletedBy": {
+          "type": "string",
+          "format": "int64"
+        },
+        "email": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "isSupperAdmin": {
+          "type": "boolean"
+        },
+        "roles": {
+          "$ref": "#/definitions/ResponseUserRole"
+        }
+      },
+      "required": [
+        "email",
+        "roles"
+      ]
+    },
+    "ResponseUserRole": {
+      "type": "string",
+      "enum": [
+        "none",
+        "admin",
+        "user"
+      ],
+      "default": "none"
+    },
     "TypeSort": {
       "type": "string",
       "enum": [
@@ -613,6 +476,15 @@
         "DESC"
       ],
       "default": "NONE"
+    },
+    "UpdateUserByIdRequestRole": {
+      "type": "string",
+      "enum": [
+        "none",
+        "admin",
+        "user"
+      ],
+      "default": "none"
     },
     "User": {
       "type": "object",
@@ -652,6 +524,16 @@
         },
         "roles": {
           "$ref": "#/definitions/UserRole"
+        },
+        "deletedAt": {
+          "type": "string"
+        },
+        "deletedBy": {
+          "type": "string",
+          "format": "int64"
+        },
+        "password": {
+          "type": "string"
         }
       },
       "required": [
@@ -662,11 +544,11 @@
     "UserRole": {
       "type": "string",
       "enum": [
-        "RoleNone",
-        "RoleAdmin",
-        "RoleUser"
+        "none",
+        "admin",
+        "user"
       ],
-      "default": "RoleNone"
+      "default": "none"
     },
     "UserServiceUpdateUserBody": {
       "type": "object",
@@ -683,11 +565,8 @@
         "avatar": {
           "type": "string"
         },
-        "isSupperAdmin": {
-          "type": "boolean"
-        },
         "roles": {
-          "$ref": "#/definitions/UserRole"
+          "$ref": "#/definitions/UpdateUserByIdRequestRole"
         }
       },
       "required": [

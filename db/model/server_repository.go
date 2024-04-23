@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type ServerRepositoryDecorator interface {
+type IServerRepository interface {
 	FindOneById(uuid.UUID) (*Server, error)
 	FindOneByName(string) (*Server, error)
 	CreateServer(map[string]interface{}) (*Server, error)
