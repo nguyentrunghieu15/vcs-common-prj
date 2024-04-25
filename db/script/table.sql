@@ -11,7 +11,8 @@ CREATE TABLE users (
     updated_by INT,
     deleted_at TIMESTAMP,
     deleted_by INT,
-    email VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    UNIQUE (email,deleted_at),
     full_name VARCHAR(1000),
     password VARCHAR(2000),
     phone VARCHAR(20),
@@ -26,13 +27,14 @@ CREATE TABLE servers (
     created_by INT,
     updated_at TIMESTAMP,
     updated_by INT,
-    deleted_at TIMESTAMP,
+    deleted_at TIMESTAMP,	
     deleted_by INT,
-    "name" VARCHAR(2000) NOT NULL UNIQUE,
+    "name" VARCHAR(2000) NOT NULL,
+    UNIQUE ("name",deleted_at),
     status SERVER_STATUS,
-    ipv4 VARCHAR(16)
-    foreign key (created_by) references uses(id)
-)
+    ipv4 VARCHAR(16),
+    foreign key (created_by) references users(id)
+);
 
 CREATE TABLE files (
     id uuid DEFAULT uuid_generate_v4() PRIMARY KEY ,
@@ -48,4 +50,4 @@ CREATE TABLE files (
     status FILE_STATUS,
     owner INT,
     foreign key (owner) references users(id)
-)
+);
